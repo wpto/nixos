@@ -53,6 +53,7 @@ rec {
         "${mod}+Shift+9" = "move container to workspace 9";
 
         "${mod}+d" = "exec dmenu_run";
+        "${mod}+b" = "exec vimb";
 
       };
 
@@ -98,7 +99,13 @@ rec {
           childBorder = cl;
           indicator = cl;
         }; 
-      }; 
+
+      };
+
+      window.commands = [ {
+        command = "border pixel 3";
+        criteria = { class = "^.*"; };  
+      } ];
     };
   };
 }
