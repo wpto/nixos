@@ -52,6 +52,8 @@ rec {
         "${mod}+Shift+8" = "move container to workspace 8";
         "${mod}+Shift+9" = "move container to workspace 9";
 
+        "${mod}+d" = "exec dmenu_run";
+
       };
 
       colors = {
