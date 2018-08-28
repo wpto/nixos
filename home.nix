@@ -1,23 +1,33 @@
-rec {
+{ pkgs, ... }:
+let
+  cl  = "#a6e22e";
+  fg  = "#f8f8f2";
+  bg  = "#161616";
+  mod = "Mod1";
+in rec {
   programs.home-manager = {
     enable = true;
     path = https://github.com/rycee/home-manager/archive/release-18.03.tar.gz;
   };
 
+  home.keyboard = {
+    option = [ "grp:shifts_toggle" "grp_led:scroll" ];
+    layout = "us,ru";
+  };
 
-  xsession.windowManager.i3 = let
-    cl  = "#a6e22e";
-    fg  = "#f8f8f2";
-    bg  = "#161616";
-    mod = "Mod1";
-  in {
+  nixpkgs.config = {
+    st.conf = builtins.readFile ./st.h;
+  };
+
+
+  xsession.windowManager.i3 = {
     enable = true;
     config = {
       modifier = mod;
-      fonts = [ "FontAwesome 8" "Terminus 8" ];
+      fonts = [ "Terminus 10" ];
 
       keybindings = {
-        "${mod}+Return" = "exec st";
+        "${mod}+Return" = "exec ${pkgs.st}/bin/st";
         "${mod}+q" = "kill";
 
         "${mod}+h" = "focus left";
@@ -29,6 +39,8 @@ rec {
         "${mod}+Shift+j" = "move down";
         "${mod}+Shift+k" = "move up";
         "${mod}+Shift+l" = "move right";
+
+        "${mod}+v" = "split v";
 
         "${mod}+f" = "fullscreen toggle";
 
@@ -53,7 +65,8 @@ rec {
         "${mod}+Shift+9" = "move container to workspace 9";
 
         "${mod}+d" = "exec dmenu_run";
-        "${mod}+b" = "exec vimb";
+        "${mod}+b" = "exec ${pkgs.vimb-unwrapped}/bin/vimb";
+        "${mod}+Print" = ''exec "scrot '%s.png' -e 'mv $f ~/'"'';
 
       };
 

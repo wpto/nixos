@@ -17,8 +17,7 @@
     device = "/dev/sda"; # or "nodev" for efi only
 
     extraEntries = ''
-      
-      menuentry "Windows 8" {
+      menuentry "Windows 10" {
         insmod part_msdos
         insmod ntfs
         insmod search_fs_uuid
@@ -40,22 +39,20 @@
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  networking.wireless.networks = {
-    "Lesya_WiFi" = {
-      pskRaw = "cfabe4cbc6473fc678e5aba10c67033cbbd7e518245fd40f650a87765be3de65";
+  networking.wireless = {
+    enable = true;
+    networks = {
+      "Lesya_WiFi".pskRaw = "cfabe4cbc6473fc678e5aba10c67033cbbd7e518245fd40f650a87765be3de65";
+      "Thunderbird".pskRaw = "d10ff16e6d23e42958e9f76af1369970c49ea1077d55b3ad78e78e3318366fc6";
     };
   };
 
-  # Select internationalisation properties.
-  # i18n = {
-  #   consoleFont = "Lat2-Terminus16";
-  #   consoleKeyMap = "us";
-  #   defaultLocale = "en_US.UTF-8";
-  # };
+  i18n = {
+    consoleFont = "Lat2-Terminus16";
+    consoleKeyMap = "us";
+    defaultLocale = "en_US.UTF-8";
+  };
 
-  # Set your time zone.
   time.timeZone = "Europe/Moscow";
 
   # List packages installed in system profile. To search, run:
@@ -64,10 +61,7 @@
   #   wget vim
   # ];
 
-  # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -76,59 +70,40 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
+    autorun = false;
     videoDrivers = [ "intel" ];
-    displayManager.lightdm.enable = true;
-    windowManager.i3.enable = true;
-    windowManager.dwm.enable = true;
-    layout = "us,ru";
-    xkbOptions = "grp:shifts_toggle, grp_led:scroll";
+    # displayManager.lightdm.enable = true;
+    # windowManager.i3.enable = true;
+    # layout = "us,ru";
+    # xkbOptions = "grp:shifts_toggle,grp_led:scroll";
   };
 
   
-  hardware.opengl.enable = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+  };
 
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [
       terminus_font
+      inconsolata
+      libertine
+      source-code-pro
       source-sans-pro
       source-serif-pro
     ];
+    fontconfig.defaultFonts.monospace = [ "terminus_font" ];
   };
 
   services.compton = {
     enable = true;
     backend = "glx"; #glx xrender xr_glx_hybrid
     refreshRate = 60;
-    vSync = "drm"; # opengl-swc drm opengl opengl-oml opengl-mswc 
+    vSync = "opengl-swc"; # opengl-swc drm_slow opengl_slow opengl-oml_slow opengl-mswc_strange
   };
 
-  # Ну нахер
-  # programs.sway = {
-  # enable = true;
-  # extraSessionCommands = ''
-  #   #define a keymap
-  #   export XKB_DEFAULT_LAYOUT=us,ru
-  #   export XKB_DEFAULT_OPTIONS=grp:shifts_toggle,grp_led:scroll
-  # '';
-  # };
-
-  
-  # services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.extraUsers.guest = {
-  #   isNormalUser = true;
-  #   uid = 1000;
-  # };
-  #
   users.mutableUsers = false;
 
   users.extraUsers.dt = {
@@ -136,6 +111,10 @@
     description  = "Dmitry Titov";
     password     = ""; 
     uid = 1000;
+  };
+
+  users.extraUsers.git = {
+    password = "";
   };
 
   users.users.root = {
@@ -149,10 +128,19 @@
     torsocks.enable = true;
   };
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
+  security.sudo = {
+    enable = true;
+    extraRules = [{
+      commands = [{
+        command = "ALL";
+        options = [ "NOPASSWD" ];
+      }];
+      groups   = [ "users" ];
+    }];
+  };
+
+
+
   system.stateVersion = "18.03"; # Did you read the comment?
 
 }
