@@ -72,10 +72,11 @@
     enable = true;
     autorun = false;
     videoDrivers = [ "intel" ];
-    # displayManager.lightdm.enable = true;
-    # windowManager.i3.enable = true;
-    # layout = "us,ru";
-    # xkbOptions = "grp:shifts_toggle,grp_led:scroll";
+    libinput.enable = true;
+    displayManager.lightdm.enable = true;
+    windowManager.i3.enable = true;
+    layout = "us,ru";
+    xkbOptions = "grp:shifts_toggle,grp_led:scroll";
   };
 
   
