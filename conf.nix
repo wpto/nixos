@@ -8,7 +8,7 @@
   nixpkgs.config.allowUnfree = true;
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
+      ./hardware-configuration.nix
     ];
 
   # Use the GRUB 2 boot loader.

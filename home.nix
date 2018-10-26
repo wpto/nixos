@@ -16,12 +16,23 @@ in {
     layout = "us,ru";
   };
 
-  nixpkgs.config = {
-    st.conf = builtins.readFile ./st.h;
+  programs.vim = {
+    enable = true;
+    settings = {
+      tabstop = 2;
+      expandtab = false;
+      shiftwidth = 2;
+      number = true;
+    };
+    extraConfig = ''
+      syntax match Tab /\t/
+      hi Tab cterm=underline ctermfg=blue ctermbg=blue
+    '';
   };
 
-  xsession.windowManager.i3 = import ./i3.nix;
   /*
+  xsession.windowManager.i3 = import ./i3.nix pkgs";
+  
   xsession.windowManager.i3 = {
     enable = true;
     config = {
@@ -72,57 +83,11 @@ in {
 
       };
 
-      colors = {
-        background = bg;
-
-        focused = {
-          background = cl;
-          border     = cl;
-          text       = fg;
-          childBorder = cl;
-          indicator  = cl; 
-        };
-
-        focusedInactive = {
-          background = bg;
-          border     = bg;
-          text       = fg;
-          childBorder = bg; 
-          indicator  = bg; 
-        };
-
-        placeholder = {
-          background = bg;
-          border     = bg;
-          text       = fg;
-          childBorder = bg;
-          indicator   = bg;
-        };
-
-        unfocused = {
-          background = bg;
-          border = bg;
-          text = fg;
-          childBorder = bg;
-          indicator = bg;
-        };
-        
-        urgent = {
-          background = cl;
-          border = cl;
-          text = fg;
-          childBorder = cl;
-          indicator = cl;
-        }; 
-
-      };
-
       window.commands = [ {
         command = "border pixel 3";
         criteria = { class = "^.*"; };  
       } ];
     };
-
   };
   */
 }
