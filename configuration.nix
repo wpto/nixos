@@ -14,30 +14,9 @@
   # Use the GRUB 2 boot loader.
   boot = {
     loader.grub = {
-    enable = true;
-    version = 2;
-    device = "/dev/sda"; # or "nodev" for efi only
-
-    extraEntries = ''
-      menuentry "Windows 10" {
-        insmod part_msdos
-        insmod ntfs
-        insmod search_fs_uuid
-        insmod ntldr
-        search --fs-uuid --set=root --hint-bios=hd0,msdos1 --hint-efi=hd0,msdos1 --hint-baremetal=achi0,msdos1 5214543714541FF1
-        ntldr /bootmgr
-      }
-
-      menuentry "System restart" {
-        echo "System rebooting..."
-        reboot
-      }      
-
-      menuentry "System shutdown" {
-        echo "System shutting down..."
-        halt
-      }
-    '';
+      enable = true;
+      version = 2;
+      device = "/dev/sda"; # or "nodev" for efi only
     };
     
     kernel.sysctl = {
