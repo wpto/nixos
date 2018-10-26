@@ -65,6 +65,7 @@ in {
     };
 
     bars = [{
+      fonts = [ "Terminus 8" ];
       "mode" = "dock";
       "position" = "top";
     }];
