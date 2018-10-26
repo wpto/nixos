@@ -4,7 +4,9 @@ let
   bg = "#000000";
   mod = "Mod1";
   palette = (background: border: text: childBorder: indicator: {inherit background border text childBorder indicator;});
-  keys = (mod: bind@{...}: map (x)
+  keys = (commands: builtins.listToAttrs 
+    (map (x: {name = "${mod}+${x}"; value = (builtins.getAttr x commands);}) 
+    (builtins.attrNames commands))); # thanks balsoft
 in {
   enable = true;
   config = {
@@ -16,19 +18,22 @@ in {
     };
     */
     
-    keybindings = {
-      "${mod} + h" = "focus left";
-      "${mod} + j" = "focus down";
-      "${mod} + k" = "focus up";
-      "${mod} + l" = "focus right";
+    keybindings = keys {
+      "h" = "focus left";
+      "j" = "focus down";
+      "k" = "focus up";
+      "l" = "focus right";
 
-      "${mod} + Shift + h" = "focus left";
-      "${mod} + Shift + j" = "focus down";
-      "${mod} + Shift + k" = "focus up";
-      "${mod} + Shift + l" = "focus right";
+      "Shift + h" = "focus left";
+      "Shift + j" = "focus down";
+      "Shift + k" = "focus up";
+      "Shift + l" = "focus right";
 
-      //packages
-      "${mod} + b" = "exec ${pkgs.chromium}/bin/chromium";
+      "q" = "kill";
+      "f" = "fullscreen toggle";
+
+      "b" = "exec ${pkgs.chromium}/bin/chromium";
+      "Return" = "exec ${pkgs.xterm}/bin/xterm";
     };
   };
 } 

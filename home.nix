@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
-let
-  cl  = "#a6e22e";
-  fg  = "#f8f8f2";
-  bg  = "#161616";
-  mod = "Mod1";
-in {
+{
   programs.home-manager = {
     enable = true;
     path = https://github.com/rycee/home-manager/archive/release-18.03.tar.gz;
@@ -30,9 +25,10 @@ in {
     '';
   };
 
-  /*
-  xsession.windowManager.i3 = import ./i3.nix pkgs";
   
+  xsession.windowManager.i3 = import ./i3.nix pkgs;
+  
+  /*
   xsession.windowManager.i3 = {
     enable = true;
     config = {

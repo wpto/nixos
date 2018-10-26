@@ -5,11 +5,8 @@
 { config, pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;
-  imports =
-    [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-    ];
+  # nixpkgs.config.allowUnfree = true; # FREEDOM
+  imports = [ /etc/nixos/hardware-configuration.nix ];
 
   # Use the GRUB 2 boot loader.
   boot = {
@@ -131,7 +128,7 @@
 
   users.extraUsers.dt = {
     isNormalUser = true;
-    description  = "Dmitry Titov";
+    description  = "dt";
     password     = ""; 
     uid = 1000;
   };
