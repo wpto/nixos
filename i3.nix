@@ -33,10 +33,10 @@ in {
       "k" = "focus up";
       "l" = "focus right";
 
-      "Shift+h" = "focus left";
-      "Shift+j" = "focus down";
-      "Shift+k" = "focus up";
-      "Shift+l" = "focus right";
+      "Shift+h" = "move left";
+      "Shift+j" = "move down";
+      "Shift+k" = "move up";
+      "Shift+l" = "move right";
 
       "v" = "split v";
       "Shift+v" = "split h";
