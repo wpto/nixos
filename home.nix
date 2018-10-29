@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
-{
+let
+  theme = builtins.fromJSON (builtins.readFile /home/dt/.config/nixpkgs/gruvbox-dark-soft.json);
+in {
   programs.home-manager = {
     enable = true;
     path = https://github.com/rycee/home-manager/archive/release-18.03.tar.gz;
@@ -25,60 +27,58 @@
     '';
   };
 
+  programs.termite = {
+    enable = true;
+    foregroundColor = "#${theme.base05}";
+    foregroundBoldColor = "#${theme.base06}";
+    cursorColor = "#${theme.base06}";
+    cursorForegroundColor = "#${theme.base00}";
+    backgroundColor = "#${theme.base00}";
+    font = "Terminus 8";
+
+    colorsExtra = ''
+      color0 = #${theme.base00}
+      color1 = #${theme.base08}
+      color2 = #${theme.base0B}
+      color3 = #${theme.base0A}
+      color4 = #${theme.base0D}
+      color5 = #${theme.base0E}
+      color6 = #${theme.base0C}
+      color7 = #${theme.base05}
+      color8 = #${theme.base03}
+      color9 = #${theme.base08}
+      color10 = #${theme.base0B}
+      color11 = #${theme.base0A}
+      color12 = #${theme.base0D}
+      color13 = #${theme.base0E}
+      color14 = #${theme.base0C}
+      color15 = #${theme.base07}
+
+      color16 = #${theme.base09}
+      color17 = #${theme.base0F}
+      color18 = #${theme.base01}
+      color19 = #${theme.base02}
+      color20 = #${theme.base04}
+      color21 = #${theme.base06}
+    '';
+  };
+
+  programs.bash = {
+    enable = true;
+    # shellAliases = {
+    # };
+  };
+
+  programs.git = {
+    enable = true;
+    userEmail = "gtdsocial@icloud.com";
+    userName  = "vadacpp";
+  };
+
   
   xsession.windowManager.i3 = import ./i3.nix pkgs;
   
   /*
-  xsession.windowManager.i3 = {
-    enable = true;
-    config = {
-      modifier = mod;
-      fonts = [ "Terminus 10" ];
-
-      keybindings = {
-        "${mod}+Return" = "exec ${pkgs.st}/bin/st";
-        "${mod}+q" = "kill";
-
-        "${mod}+h" = "focus left";
-        "${mod}+j" = "focus down";
-        "${mod}+k" = "focus up";
-        "${mod}+l" = "focus right";
-
-        "${mod}+Shift+h" = "move left";
-        "${mod}+Shift+j" = "move down";
-        "${mod}+Shift+k" = "move up";
-        "${mod}+Shift+l" = "move right";
-
-        "${mod}+v" = "split v";
-
-        "${mod}+f" = "fullscreen toggle";
-
-        "${mod}+1" = "workspace 1";
-        "${mod}+2" = "workspace 2";
-        "${mod}+3" = "workspace 3";
-        "${mod}+4" = "workspace 4";
-        "${mod}+5" = "workspace 5";
-        "${mod}+6" = "workspace 6";
-        "${mod}+7" = "workspace 7";
-        "${mod}+8" = "workspace 8";
-        "${mod}+9" = "workspace 9";
-
-        "${mod}+Shift+1" = "move container to workspace 1";
-        "${mod}+Shift+2" = "move container to workspace 2";
-        "${mod}+Shift+3" = "move container to workspace 3";
-        "${mod}+Shift+4" = "move container to workspace 4";
-        "${mod}+Shift+5" = "move container to workspace 5";
-        "${mod}+Shift+6" = "move container to workspace 6";
-        "${mod}+Shift+7" = "move container to workspace 7";
-        "${mod}+Shift+8" = "move container to workspace 8";
-        "${mod}+Shift+9" = "move container to workspace 9";
-
-        "${mod}+d" = "exec dmenu_run";
-        "${mod}+b" = "exec ${pkgs.vimb-unwrapped}/bin/vimb";
-        "${mod}+Print" = ''exec "scrot '%s.png' -e 'mv $f ~/'"'';
-
-      };
-
       window.commands = [ {
         command = "border pixel 3";
         criteria = { class = "^.*"; };  

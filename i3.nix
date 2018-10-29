@@ -49,7 +49,7 @@ in {
 
       "b" = "exec ${pkgs.chromium}/bin/chromium";
       "d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
-      "Return" = "exec ${pkgs.xterm}/bin/xterm";
+      "Return" = "exec ${pkgs.termite}/bin/termite";
     } // ws (generatedWS // {"0" = "10";})); # generate workspace
 
     modes = {

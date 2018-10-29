@@ -5,7 +5,7 @@
 { config, pkgs, ... }:
 
 {
-  # nixpkgs.config.allowUnfree = true; # FREEDOM
+  nixpkgs.config.allowUnfree = true; # FREEDOM (nvidia :()
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
   # Use the GRUB 2 boot loader.
@@ -14,6 +14,7 @@
       enable = true;
       version = 2;
       device = "/dev/sda"; # or "nodev" for efi only
+      useOSProber = true;
     };
     
     kernel.sysctl = {
@@ -60,7 +61,7 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    videoDriver = "intel";
+    videoDrivers = ["nvidia"];
     synaptics.enable = true;
 
 /*
