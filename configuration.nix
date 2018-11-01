@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+#q Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -41,7 +41,7 @@
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
+    defaultLocale = "ru_RU.UTF-8";
   };
 
   time.timeZone = "Europe/Moscow";

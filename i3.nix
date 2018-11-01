@@ -69,5 +69,9 @@ in {
       "mode" = "dock";
       "position" = "top";
     }];
+
+    startup = [
+      { command = "feh --no-fehbg --bg-fill ~/.config/nixpkgs/linear_gradient.png"; }
+    ];
   };
 } 

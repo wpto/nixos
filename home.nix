@@ -65,6 +65,9 @@ in {
 
   programs.bash = {
     enable = true;
+    sessionVariables = {
+      "LC_ALL" = "ru_RU.utf8";
+    };
     # shellAliases = {
     # };
   };
@@ -74,6 +77,8 @@ in {
     userEmail = "gtdsocial@icloud.com";
     userName  = "vadacpp";
   };
+
+  programs.feh.enable = true;
 
   
   xsession.windowManager.i3 = import ./i3.nix pkgs;
