@@ -1,7 +1,10 @@
 {pkgs, ...} :
 let
-  fg = "#ffffff";
-  bg = "#000000";
+  # how to move to home.nix and load this
+  theme = builtins.fromJSON (builtins.readFile /home/dt/.config/nixpkgs/gruvbox-dark-soft.json);
+  color = theme.base0B;
+  fg = theme.base00;
+  bg = theme.base02;
   mod = "Mod1";
 
   palette = (background: border: text: childBorder: indicator: {inherit background border text childBorder indicator;});
@@ -19,11 +22,15 @@ in {
   enable = true;
   config = {
     fonts = [ "Terminus 8" ];
-    /*
+
+/*
     colors = {
       background = bg;
-      focused = palette fg fg bg fg fg;
+      focused = palette bg color color bg bg;
       focusedInactive = palette bg bg fg bg bg;  
+      placeholder = palette bg bg fg bg bg;
+      unfocused = palette bg bg fg bg bg;
+      urgent = palette color bg bg bg color;
     };
     */
     

@@ -3,8 +3,9 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-{
+let
+  status = import ./status;
+in {
   nixpkgs.config.allowUnfree = true; # FREEDOM (nvidia :()
   imports = [ /etc/nixos/hardware-configuration.nix ];
 
@@ -26,7 +27,7 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless = {
-    enable = true;
+    enable = status.wifi;
     networks = {
       "Lesya_WiFi".pskRaw = "cfabe4cbc6473fc678e5aba10c67033cbbd7e518245fd40f650a87765be3de65";
       "Thunderbird".pskRaw = "d10ff16e6d23e42958e9f76af1369970c49ea1077d55b3ad78e78e3318366fc6";
@@ -46,11 +47,9 @@
 
   time.timeZone = "Europe/Moscow";
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   wget vim
-  # ];
+  environment.systemPackages = with pkgs; [
+    wget vim
+  ];
 
 
 
@@ -61,16 +60,9 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    videoDrivers = ["nvidia"];
     synaptics.enable = true;
+    videoDrivers = status.videoDrivers;
 
-/*
-    deviceSection = ''
-      Identifier "Intel Graphics"
-      Option "AccelMethod" "sna"
-      Option "TearFree"    "true"
-    '';
-*/
     displayManager.auto = {
       enable = true;
       user = "dt";
@@ -79,7 +71,7 @@
     desktopManager.xterm.enable = false;
 
     windowManager = {
-       default = "i3";
+      default = "i3";
       i3.enable = true;
     };
       

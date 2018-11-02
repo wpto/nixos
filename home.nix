@@ -35,7 +35,7 @@ in {
     cursorForegroundColor = "#${theme.base00}";
     backgroundColor = "#${theme.base00}";
     font = "Terminus 8";
-
+   
     colorsExtra = ''
       color0 = #${theme.base00}
       color1 = #${theme.base08}
