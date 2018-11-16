@@ -3,11 +3,23 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let
-  status = import ./status;
-in {
-  nixpkgs.config.allowUnfree = true; # FREEDOM (nvidia :()
-  imports = [ /etc/nixos/hardware-configuration.nix ];
+{
+  nixpkgs.config.allowUnfree = true;
+  imports = [ ./hardware-configuration.nix ];
+
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";      
+    };
+
+    "/home" = {
+      device = "/dev/disk/by-label/home";
+      fsType = "ext4";
+    };
+  };
+
+  swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
 
   # Use the GRUB 2 boot loader.
   boot = {
@@ -23,11 +35,7 @@ in {
     };
   };
 
-  
-
-  networking.hostName = "nixos"; # Define your hostname.
   networking.wireless = {
-    enable = status.wifi;
     networks = {
       "Lesya_WiFi".pskRaw = "cfabe4cbc6473fc678e5aba10c67033cbbd7e518245fd40f650a87765be3de65";
       "Thunderbird".pskRaw = "d10ff16e6d23e42958e9f76af1369970c49ea1077d55b3ad78e78e3318366fc6";
@@ -42,7 +50,7 @@ in {
   i18n = {
     consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
-    defaultLocale = "ru_RU.UTF-8";
+    defaultLocale = "en_US.UTF-8";
   };
 
   time.timeZone = "Europe/Moscow";
@@ -57,11 +65,10 @@ in {
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # Enable the X11 windowing system.
+# Enable the X11 windowing system.
   services.xserver = {
     enable = true;
     synaptics.enable = true;
-    videoDrivers = status.videoDrivers;
 
     displayManager.auto = {
       enable = true;
@@ -73,22 +80,15 @@ in {
     windowManager = {
       default = "i3";
       i3.enable = true;
+      i3.extraSessionCommands = ''
+        ${pkgs.fluxbox}/bin/fbsetroot -gradient Vertical -from #96ACC2 -to #5C577F
+      '';
     };
       
     layout = "us,ru";
     xkbVariant = ",";
-    xkbOptions = "grp:shifts_toggle,grp_led:scroll";
+    xkbOptions = "grp:shifts_toggle,grp_led:scroll,caps:swapescape";
   };
-  /*
-
-  programs.way-cooler = {
-    enable = true;
-    extraSessionCommands =  ''
-      export XKB_DEFAULT_LAYOUT=us,ru
-      export XKB_DEFAULT_OPTIONS=grp:shifts_toggle,grp_led:scroll
-    '';
-  };
-  */
 
   
   hardware.opengl = {

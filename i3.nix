@@ -1,10 +1,6 @@
 {pkgs, ...} :
 let
   # how to move to home.nix and load this
-  theme = builtins.fromJSON (builtins.readFile /home/dt/.config/nixpkgs/gruvbox-dark-soft.json);
-  color = theme.base0B;
-  fg = theme.base00;
-  bg = theme.base02;
   mod = "Mod1";
 
   palette = (background: border: text: childBorder: indicator: {inherit background border text childBorder indicator;});
@@ -22,17 +18,6 @@ in {
   enable = true;
   config = {
     fonts = [ "Terminus 8" ];
-
-/*
-    colors = {
-      background = bg;
-      focused = palette bg color color bg bg;
-      focusedInactive = palette bg bg fg bg bg;  
-      placeholder = palette bg bg fg bg bg;
-      unfocused = palette bg bg fg bg bg;
-      urgent = palette color bg bg bg color;
-    };
-    */
     
     keybindings = keys ({
       "h" = "focus left";
@@ -54,9 +39,12 @@ in {
       "q" = "kill";
       "space" = "mode_toggle";
 
-      "b" = "exec ${pkgs.chromium}/bin/chromium";
+      
+      "p" = "exec ${pkgs.ncmpcpp}/bin/ncmpcpp";
+
+      "c" = "exec ${pkgs.chromium}/bin/chromium";
       "d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
-      "Return" = "exec ${pkgs.termite}/bin/termite";
+      "Return" = "exec ${pkgs.lxterminal}/bin/lxterminal";
     } // ws (generatedWS // {"0" = "10";})); # generate workspace
 
     modes = {
@@ -77,8 +65,5 @@ in {
       "position" = "top";
     }];
 
-    startup = [
-      { command = "feh --no-fehbg --bg-fill ~/.config/nixpkgs/linear_gradient.png"; }
-    ];
   };
 } 
