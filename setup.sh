@@ -1,2 +1,4 @@
-ln -s configuration.nix /etc/nixos/configuration.nix
-ln -s hardware-configuration.nix /etc/nixos/hardware-configuration.nix
+rm /etc/nixos/configuration.nix
+rm /etc/nixos/hardware-configuration.nix
+ln -s "/home/dt/.config/nixpkgs/configuration.nix" /etc/nixos/configuration.nix
+ln -s "/home/dt/.config/nixpkgs/hardware-configuration.nix" /etc/nixos/hardware-configuration.nix

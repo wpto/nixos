@@ -15,7 +15,9 @@
   nix.maxJobs = lib.mkDefault 6;
 
   networking = {
-    hostName = "pc";
+    hostName = "nt";
     wireless.enable = true;
   };
+
+  services.xserver.videoDrivers = [ "intel" ];
 }
