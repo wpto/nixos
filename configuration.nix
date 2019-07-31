@@ -7,16 +7,9 @@
   nixpkgs.config.allowUnfree = true;
   imports = [ ./hardware-configuration.nix ];
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";      
-    };
-
-    "/home" = {
-      device = "/dev/disk/by-label/home";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";      
   };
 
   swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
@@ -34,8 +27,9 @@
       "net.ipv4.ip_default_ttl" = 65;
     };
   };
-
+  networking.hostName = "nixos";
   networking.wireless = {
+    enable = true;
     networks = {
       "Lesya_WiFi".pskRaw = "cfabe4cbc6473fc678e5aba10c67033cbbd7e518245fd40f650a87765be3de65";
       "Thunderbird".pskRaw = "d10ff16e6d23e42958e9f76af1369970c49ea1077d55b3ad78e78e3318366fc6";
@@ -56,7 +50,7 @@
   time.timeZone = "Europe/Moscow";
 
   environment.systemPackages = with pkgs; [
-    wget vim
+    wget vim firefox zathura tdesktop pavucontrol milkytracker
   ];
 
 
@@ -72,7 +66,7 @@
 
     displayManager.auto = {
       enable = true;
-      user = "dt";
+      user = "nixuser";
     };
 
     desktopManager.xterm.enable = false;
@@ -80,14 +74,13 @@
     windowManager = {
       default = "i3";
       i3.enable = true;
-      i3.extraSessionCommands = ''
-        ${pkgs.fluxbox}/bin/fbsetroot -gradient Vertical -from #96ACC2 -to #5C577F
-      '';
     };
       
     layout = "us,ru";
-    xkbVariant = ",";
-    xkbOptions = "grp:shifts_toggle,grp_led:scroll,caps:swapescape";
+    xkbVariant = "colemak,";
+    xkbOptions = "grp:alt_shift_toggle,grp_led:scroll,caps:swapescape";
+
+    videoDrivers = ["intel"];
   };
 
   
@@ -101,13 +94,17 @@
     enableDefaultFonts = true;
     fonts = with pkgs; [
       terminus_font
-      inconsolata
-      libertine
-      source-code-pro
-      source-sans-pro
-      source-serif-pro
+    # inconsolata
+    # libertine
+    # source-code-pro
+    # source-sans-pro
+    # source-serif-pro
     ];
-    fontconfig.defaultFonts.monospace = [ "terminus_font" ];
+    fontconfig.defaultFonts = {
+      monospace = [ "terminus_font" ];
+      sansSerif = [ "FreeSans" ];
+      serif     = [ "FreeSerif" ];  
+    };
   };
 
   services.compton = {
@@ -119,15 +116,11 @@
 
   users.mutableUsers = false;
 
-  users.extraUsers.dt = {
+  users.extraUsers.nixuser = {
     isNormalUser = true;
-    description  = "dt";
+    description  = "";
     password     = ""; 
     uid = 1000;
-  };
-
-  users.extraUsers.git = {
-    password = "";
   };
 
   users.users.root = {
@@ -159,6 +152,6 @@
 
 
 
-  system.stateVersion = "18.09"; # Did you read the comment?
+  system.stateVersion = "19.03";
 
 }
