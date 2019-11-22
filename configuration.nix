@@ -11,18 +11,11 @@ in rec {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      "./configs/${import system-name.nix}-config.nix"
     ];
 
-  # boot
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda"; 
-  boot.loader.grub.useOSProber = true;
-
   # networking
-  networking.hostName = "nixos";
-  networking.useDHCP = false;
-  networking.interfaces.enp2s0.useDHCP = true;
+  networking.useDHCP = true;
   networking.networkmanager.enable = true;
 
   # i18n
@@ -81,8 +74,6 @@ in rec {
       i3.enable = true;
       i3.configFile = pkgs.writeText "i3-config-file" (import ./i3.nix pkgs); 
     };
-
-    videoDrivers = [ "nvidia" ];
   };
 
   fonts = {
