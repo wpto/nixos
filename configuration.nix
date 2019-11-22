@@ -3,8 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-{
+let
+  term = pkgs.st.overrideAttrs (old: rec {
+    
+  });
+in rec {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -33,12 +36,27 @@
   time.timeZone = "Europe/Moscow";
 
   # nixpkgs
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    
+    st.patches = [
+      (pkgs.fetchpatch {
+        url = "https://st.suckless.org/patches/anysize/st-anysize-0.8.1.diff";
+        sha256 = "8118dbc50d2fe07ae10958c65366476d5992684a87a431f7ee772e27d5dee50f";
+      })
+      (pkgs.fetchpatch {
+        url = "https://st.suckless.org/patches/clipboard/st-clipboard-0.8.2.diff";
+        sha256 = "7be1a09831f13361f5659aaad55110bde99b25c8ba826c11d1d7fcec21f32945";
+      })
+    ];
+  };
 
   # environment
   environment.systemPackages = with pkgs; [
-    wget vim firefox termite networkmanagerapplet
+    wget vim firefox termite
   ];
+  
+  programs.nm-applet.enable = true; 
 
   # sound
   sound.enable = true;
@@ -62,16 +80,18 @@
       default = "i3";
       i3.enable = true;
       i3.configFile = pkgs.writeText "i3-config-file" (import ./i3.nix pkgs); 
-      #i3.package = let
-      #  text = import ./i3.nix pkgs;
-      #  configFile = pkgs.writeText "i3-config-file" text;
-      #in pkgs.writeScriptBin "i3" ''
-      #  #!${pkgs.stdenv.shell}
-      #  exec ${pkgs.i3} -c ${configFile}
-      #'';
     };
 
     videoDrivers = [ "nvidia" ];
+  };
+
+  fonts = {
+    fonts = with pkgs; [ terminus_font freefont_ttf ];
+    fontconfig.defaultFonts = {
+      monospace = [ "Terminus" ];
+      sansSerif = [ "FreeSans" ];
+      serif     = [ "FreeSerif" ];      
+    };
   };
 
   services.compton = {
