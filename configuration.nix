@@ -7,15 +7,23 @@ let
   term = pkgs.st.overrideAttrs (old: rec {
     
   });
+  systemName = import ./system-name.nix;
 in rec {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      "./configs/${import system-name.nix}-config.nix"
+    
+      (./. + builtins.toPath "/configs/${systemName}.nix")
     ];
 
+  # filesystem
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
+
   # networking
-  networking.useDHCP = true;
+  networking.useDHCP = false;
+  networking.interfaces.enp0s3.useDHCP = true;
   networking.networkmanager.enable = true;
 
   # i18n
