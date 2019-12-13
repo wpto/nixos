@@ -26,12 +26,7 @@
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
-
-    "/home" = {
-      device = "/dev/disk/by-label/home";
-      fsType = "ext4";
+      fsType = "btrfs";
     };
   };
 

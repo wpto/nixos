@@ -15,11 +15,6 @@ in rec {
       (./. + builtins.toPath "/configs/${systemName}.nix")
     ];
 
-  # filesystem
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
-  };
 
   # networking
   networking.useDHCP = false;
