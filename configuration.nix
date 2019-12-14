@@ -12,7 +12,7 @@ in rec {
   imports =
     [ # Include the results of the hardware scan.
     
-      (./. + builtins.toPath "/configs/${systemName}.nix")
+      (./. + builtins.toPath "/hardware/${systemName}/default.nix")
     ];
 
 
