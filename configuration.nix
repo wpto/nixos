@@ -13,12 +13,12 @@ in rec {
     [ # Include the results of the hardware scan.
     
       (./. + builtins.toPath "/hardware/${systemName}/default.nix")
+      ./programs/sxhkd/default.nix
     ];
 
 
   # networking
   networking.useDHCP = false;
-  networking.interfaces.enp0s3.useDHCP = true;
   networking.networkmanager.enable = true;
 
   # i18n
@@ -75,7 +75,7 @@ in rec {
     windowManager = {
       default = "i3";
       i3.enable = true;
-      i3.configFile = pkgs.writeText "i3-config-file" (import ./i3.nix pkgs); 
+      i3.configFile = pkgs.writeText "i3-config-file" (import ./programs/i3/config.nix pkgs); 
     };
   };
 
