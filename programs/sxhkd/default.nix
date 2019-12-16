@@ -3,19 +3,16 @@ let
   configFile = import ./config.nix pkgs;
 in {
   # setup daemon autostart
-  systemd.services.sxhkd = {
+  systemd.user.services.sxhkd = {
     enable = true;
     description = "Simple X Hotkey Daemon";
-    documentation = ["man:sxhkd(1)"];
-   
-    after = [ "display-manager.service" ];
-    bindsTo = [ "display-manager.service" ];
-   
-    serviceConfig = {
-      ExecStart = "${pkgs.sxhkd} -c ${pkgs.writeText "sxhkd-config-file" configFile}";
-      ExecReload = "kill -SIGUSR1 $MAINPID";
-    };
 
-    wantedBy = [ "multi-user.target" ];
+    after = [ "graphical-session-pre.target" ];
+    partOf = [ "graphical-session.target" ];
+
+    reload = "kill -SIGUSR1 sxhkd";
+    script = "${pkgs.sxhkd}/bin/sxhkd -c ${pkgs.writeText "sxhkd-config-file" configFile}";
+
+    wantedBy = [ "graphical-session.target" ];
   };
 }
