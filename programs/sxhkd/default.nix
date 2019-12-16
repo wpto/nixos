@@ -6,17 +6,16 @@ in {
   systemd.services.sxhkd = {
     enable = true;
     description = "Simple X Hotkey Daemon";
-    documentation = "man:sxhkd(1)";
+    documentation = ["man:sxhkd(1)"];
    
     after = [ "display-manager.service" ];
     bindsTo = [ "display-manager.service" ];
    
     serviceConfig = {
-      ExecStart = "${pkgs.sxhkd}";
-      ExecReload = "${
+      ExecStart = "${pkgs.sxhkd} -c ${pkgs.writeText "sxhkd-config-file" configFile}";
+      ExecReload = "kill -SIGUSR1 $MAINPID";
     };
-    script = "${pkgs.sxhkd}";
-    scriptArgs = "-c ${pkgs.writeText "sxhkd-config-file" configFile}";
-    wantedBy = [ "graphical.target" ];
+
+    wantedBy = [ "multi-user.target" ];
   };
 }

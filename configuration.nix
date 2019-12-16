@@ -110,7 +110,7 @@ in rec {
       isNormalUser = true;
       password = "";
       uid = 1000;
-      extraGroups = [ "networkmanager" ];
+      extraGroups = [ "wheel" "networkmanager" ];
       shell = pkgs.fish;
     };
   };
