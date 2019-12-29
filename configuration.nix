@@ -14,12 +14,9 @@ in rec {
     
       (./. + builtins.toPath "/hardware/${systemName}/default.nix")
       ./programs/sxhkd/default.nix
+      ./programs/tor/default.nix
     ];
 
-
-  # networking
-  networking.useDHCP = false;
-  networking.networkmanager.enable = true;
 
   # i18n
   i18n = {
