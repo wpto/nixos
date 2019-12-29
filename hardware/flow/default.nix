@@ -8,6 +8,7 @@ in {
   imports = [ 
     ./hardware-configuration.nix
     ../../common/wifi.nix
+    ../../common/bluetooth.nix
   ];
 
   boot.loader.grub = {
