@@ -12,6 +12,7 @@
     networks = {
       "qqq".psk = "9999999998";
       "AndroidAPD5B2".psk = "movn6490";
+      "Lesya_WiFi".psk = "Liniya10";
     };
   };
 }

@@ -3,7 +3,9 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, ... }:
 
-{
+let 
+  allowedPorts = [ 8080 9091 ];
+in {
   imports = [ 
     ./hardware-configuration.nix
     ../../common/nvidia.nix
@@ -18,6 +20,8 @@
 
   networking.hostName = "wasp";
   networking.interfaces.enp0s3.useDHCP = true;
+  networking.firewall.allowedTCPPorts = allowedPorts;
+  networking.firewall.allowedUDPPorts = allowedPorts;
 
   
 
