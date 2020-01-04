@@ -9,6 +9,7 @@ in {
     ./hardware-configuration.nix
     ../../common/wifi.nix
     ../../common/bluetooth.nix
+    ./plasma.nix 
   ];
 
   boot.loader.grub = {
