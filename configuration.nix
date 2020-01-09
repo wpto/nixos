@@ -15,8 +15,10 @@ in rec {
       (./. + builtins.toPath "/hardware/${systemName}/default.nix")
       ./programs/sxhkd/default.nix
       ./programs/tor/default.nix
+      ./xserver-i3.nix
     ];
 
+  networking.firewall.enable = false;
 
   # i18n
   i18n = {

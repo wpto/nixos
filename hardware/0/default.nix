@@ -9,7 +9,8 @@ in {
     ./hardware-configuration.nix
     ../../common/wifi.nix
     ../../common/bluetooth.nix
-    ./plasma.nix 
+    # ./plasma.nix 
+    ../../programs/nginx-file-server.nix
   ];
 
   boot.loader.grub = {
