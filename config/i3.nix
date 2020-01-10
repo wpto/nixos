@@ -1,6 +1,18 @@
 { pkgs, ... } : let
   v = "df";
+  # mod = "Mod4";
+  # launchSet = {
+  #   b = "firefox"; 
+  # };
 
+  # zipWith = first: second:
+  
+
+  # processLaunchSet = let
+  #   getLine = button: command: ''bindsym ${mod}+${button} ${command}'';
+  # in ''
+  #   
+  # '';
 in ''
 set $mod Mod4
 
@@ -19,7 +31,7 @@ font: -xos4-terminus-*-*-*-*-12-*-*-*-*-*-iso10646-*
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec ${pkgs.lxterminal}/bin/lxterminal # i hate xterm 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -32,31 +44,20 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+v split h
 
 # split in vertical orientation
 bindsym $mod+v split v
