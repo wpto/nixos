@@ -4,8 +4,10 @@
     default = "xmonad";
     xmonad.enable = true;
     xmonad.enableContribAndExtras = true;
-    #xmonad.config = '' '';
     # xmonad.extraPackages = [];
     # xmonad.haskellPackages = [];
+    xmonad.config = ''
+
+    '';
   };
 }

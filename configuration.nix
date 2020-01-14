@@ -13,7 +13,7 @@ in rec {
       #./programs/sxhkd/default.nix
       ./programs/tor/default.nix
       ./xserver.nix
-      ./xmonad.nix
+      ./i3.nix
     ];
 
   networking.firewall.enable = true;
