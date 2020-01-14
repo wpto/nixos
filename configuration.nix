@@ -12,7 +12,8 @@ in rec {
       (./. + builtins.toPath "/hardware/${systemName}/configuration.nix")
       #./programs/sxhkd/default.nix
       ./programs/tor/default.nix
-      ./xserver-i3.nix
+      ./xserver.nix
+      ./xmonad.nix
     ];
 
   networking.firewall.enable = true;
@@ -47,20 +48,22 @@ in rec {
     default-sample-format = "float32le";
   };
 
-  fonts = let 
-   append = x: ["#{x} JP" "${x} SC" "${x} TC" "${x} KR"];
-  in{
-    # fonts = with pkgs; [ terminus_font freefont_ttf ];
-    # fontconfig.defaultFonts = {
-    #   monospace = [ "Terminus" ];
-    #   sansSerif = [ "FreeSans" ];
-    #   serif     = [ "FreeSerif" ];      
-    # };
-    fonts = with pkgs; [ anonymousPro freefont_ttf noto-fonts noto-fonts-cjk noto-fonts-emoji];
+  fonts = {
+    fonts = with pkgs; [
+      freefont_ttf
+      liberation_ttf
+      noto-fonts-emoji
+      source-han-sans-japanese
+      source-han-serif-japanese
+    ];
+
+    fontconfig.enable = true;
     fontconfig.allowBitmaps = false;
-    fontconfig.defaultFonts.sansSerif = [ "FreeSans" "Noto Color Emoji" ] ++ append "Noto Sans CJK";
-    fontconfig.defaultFonts.serif = [ "FreeSerif" "Noto Color Emoji" ] ++ append "Noto Sans";
-    fontconfig.defaultFonts.monospace = [ "Anonymous Pro" "Noto Color Emoji"] ++ append "Noto Sans Mono";
+    fontconfig.defaultFonts.sansSerif = [ "FreeSans" "Source Han Sans JP" ];
+    fontconfig.defaultFonts.serif     = [ "FreeSerif" "Source Han Serif JP" ];
+    fontconfig.defaultFonts.monospace = [ "Liberation Mono"];
+    fontconfig.defaultFonts.emoji     = [ "Noto Color Emoji" ];
+    enableDefaultFonts = false;
   };
 
   services.compton = {
