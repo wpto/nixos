@@ -8,8 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../common/wifi.nix
-      ../../programs/nginx-file-server.nix
+      ./wifi.nix
+      ./nginx-file-server.nix
     ];
 
   boot.loader.grub.enable = true;

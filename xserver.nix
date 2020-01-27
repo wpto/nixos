@@ -15,7 +15,7 @@ in {
     };
 
     displayManager.sessionCommands = ''
-      xrdb -override ${pkgs.writeText "xresources-file" (import ./config/xresources.nix pkgs)};
+      xrdb -override ${pkgs.writeText "xresources-file" (import ./xresources.nix pkgs)};
     '';
 
   };

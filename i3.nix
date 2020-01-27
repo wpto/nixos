@@ -4,30 +4,15 @@ let
   configFile = ''
     floating_modifier ${mod}
     
-    bindsym ${mod}+q kill
-    bindsym ${mod}+d exec dmenu_run
-    
     bindsym ${mod}+Return exec ${pkgs.lxterminal}/bin/lxterminal
-    
-    bindsym ${mod}+j focus left
-    bindsym ${mod}+k focus down
-    bindsym ${mod}+l focus up 
-    bindsym ${mod}+semicolon focus right 
 
     bindsym ${mod}+Shift+j move left
     bindsym ${mod}+Shift+k move down 
     bindsym ${mod}+Shift+l move up 
     bindsym ${mod}+Shift+semicolon move right
 
-    bindsym ${mod}+h split h
-    bindsym ${mod}+v split v
-    bindsym ${mod}+b layout toggle split
 
-    bindsym ${mod}+f fullscreen toggle
 
-    bindsym ${mod}+c floating toggle 
-    bindsym ${mod}+x focus mode_toggle
-    bindsym ${mod}+a focus parent
 
     bindsym ${mod}+1 workspace number "1"
     bindsym ${mod}+2 workspace number "2"
@@ -57,11 +42,35 @@ let
     bindsym ${mod}+Shift+c reload
     bindsym ${mod}+Shift+r restart
 
-    bindsym ${mod}+r exec ${pkgs.firefox}/bin/firefox
-    bindsym ${mod}+e exec ${pkgs.lxrandr}/bin/lxrandr
-    bindsym ${mod}+g exec ${pkgs.lxterminal}/bin/lxterminal -e "${pkgs.htop}/bin/htop"
      
-    
+    bindsym ${mod}+q kill
+    bindsym ${mod}+w exec ${pkgs.qbittorrent}/bin/qbittorrent
+    bindsym ${mod}+e exec ${pkgs.lxrandr}/bin/lxrandr
+    bindsym ${mod}+r exec ${pkgs.firefox}/bin/firefox
+    bindsym ${mod}+t exec ${pkgs.gimp}/bin/gimp
+   
+    bindsym ${mod}+a focus parent
+#   bindsym ${mod}+s
+    bindsym ${mod}+d exec dmenu_run
+    bindsym ${mod}+f fullscreen toggle
+    bindsym ${mod}+g exec ${pkgs.lxterminal}/bin/lxterminal -e "${pkgs.htop}/bin/htop"
+
+#   bindsym ${mod}+z
+    bindsym ${mod}+x focus mode_toggle
+    bindsym ${mod}+c floating toggle 
+    bindsym ${mod}+v split v
+    bindsym ${mod}+b layout toggle split
+
+# yuiop
+
+    bindsym ${mod}+h split h
+    bindsym ${mod}+j focus left
+    bindsym ${mod}+k focus down
+    bindsym ${mod}+l focus up 
+    bindsym ${mod}+semicolon focus right 
+
+# nm,./
+
     bar {
       status_command i3status
       position top

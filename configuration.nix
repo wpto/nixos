@@ -5,18 +5,29 @@
 { config, pkgs, ... }:
 let
   systemName = import ./system-name.nix;
+  neededPackages = with pkgs; [
+    vim wget zathura
+  ];
 in rec {
   imports =
     [ # Include the results of the hardware scan.
     
-      (./. + builtins.toPath "/hardware/${systemName}/configuration.nix")
+      # (./. + builtins.toPath "/hardware/${systemName}/configuration.nix")
       #./programs/sxhkd/default.nix
+      #./hardware/1/configuration.nix
+      ./device.nix
       ./programs/tor/default.nix
       ./xserver.nix
       ./i3.nix
+      ./environment.nix
+      ./zsh.nix
     ];
 
   networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 8001 8999 ];
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 6881; to = 6889; }
+  ];
 
   # i18n
   i18n = {
@@ -34,9 +45,7 @@ in rec {
   };
 
   # environment
-  environment.systemPackages = with pkgs; [
-    wget vim firefox 
-  ];
+  environment.systemPackages = neededPackages;  
 
   programs.vim.defaultEditor = true;
 
@@ -68,29 +77,29 @@ in rec {
 
   services.compton = {
     enable = true;
-
-    backend = "xrender";
+    backend = "glx";
     vSync = true; 
   };
 
-  programs.fish.enable = true;
+  #programs.fish.enable = true;
 
   # users
   users = {
     mutableUsers = false;
+    defaultUserShell = pkgs.zsh;
+  };
+  
+  users.extraUsers.root = {
+    password = "";
+  # useDefaultShell = true;
+  };
 
-    users.root = {
-      password = "";
-      shell = pkgs.fish;
-    };
-
-    users.ki = {
-      isNormalUser = true;
-      password = "";
-      uid = 1000;
-      extraGroups = [ "wheel" "networkmanager" ];
-      shell = pkgs.fish;
-    };
+  users.extraUsers.ki = {
+    isNormalUser = true;
+    password = "";
+    uid = 1000;
+    extraGroups = [];
+    useDefaultShell = true;
   };
 
   # sudo
@@ -98,10 +107,7 @@ in rec {
     enable = true;
     extraRules = [{
       groups = [ "users" ];
-      commands = [{
-        command = "ALL";
-        options = [ "NOPASSWD" ];
-      }];
+      commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
     }];
   };
 
