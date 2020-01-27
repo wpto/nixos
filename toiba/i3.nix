@@ -62,12 +62,13 @@ let
     bindsym ${mod}+b layout toggle split
 
 # yuiop
+    bindsym ${mod}+y split h
 
-    bindsym ${mod}+h split h
-    bindsym ${mod}+j focus left
-    bindsym ${mod}+k focus down
-    bindsym ${mod}+l focus up 
-    bindsym ${mod}+semicolon focus right 
+    bindsym ${mod}+h focus left
+    bindsym ${mod}+j focus down
+    bindsym ${mod}+k focus up
+    bindsym ${mod}+l focus right
+#   bindsym ${mod}+semicolon 
 
 # nm,./
 
