@@ -1,16 +1,22 @@
 { config, pkgs, ... }:
-{
+with pkgs.lib; {
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [
 
-  # kodi
-    (mkIf desktopManager.kodi.enable 8080)
-    (mkIf desktopManager.kodi.enable 9777)
+  # kodi web server
+    (mkIf config.services.xserver.desktopManager.kodi.enable 8080)
 
   # ssh
-    (mkIf services.openssh 22)
+    (mkIf config.services.openssh.enable 22)
 
   # transmission webserver
-    (mkIf config.service.transmission.enable 9091)
+    (mkIf config.services.transmission.enable 9091)
+  ];
+
+  networking.firewall.allowedUDPPorts = [
+
+  # kodi event server
+    (mkIf config.services.xserver.desktopManager.kodi.enable 9777)
+
   ];
 }

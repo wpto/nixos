@@ -7,8 +7,7 @@ stdenv.mkDerivation {
     nixos-rebuild switch
     git config user.email "gtdsocial@icloud.com"
     git config user.name  "umgi"
-    git add *
-    git commit
+    git commit -a
     git push -u origin master
   '';
 }
