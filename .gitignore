@@ -2,5 +2,5 @@
 status
 /system-name.nix
 /hardware-configuration.nix
-/configuraion.nix
+/configuration.nix
 
