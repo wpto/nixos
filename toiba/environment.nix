@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 {
+  nixpkgs.config.allowUnfree = true;
+
+  programs.vim.defaultEditor = true;
+
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
+  environment.systemPackages = with pkgs; [
+    git vim wget zathura
+  ];
   
   environment.shellAliases = {
     # ls = "ls --color=tty";

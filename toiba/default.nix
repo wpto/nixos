@@ -3,12 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let
-  systemName = import ./system-name.nix;
-  neededPackages = with pkgs; [
-    vim wget zathura
-  ];
-in rec {
+rec {
   imports =
     [ # Include the results of the hardware scan.
     
@@ -23,6 +18,7 @@ in rec {
       ./zsh.nix
     ];
 
+  # fixme ~^=O=^~
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 8001 8999 ];
   networking.firewall.allowedTCPPortRanges = [
@@ -38,16 +34,6 @@ in rec {
 
   # time
   time.timeZone = "Europe/Moscow";
-
-  # nixpkgs
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
-  # environment
-  environment.systemPackages = neededPackages;  
-
-  programs.vim.defaultEditor = true;
 
   # sound
   sound.enable = true;

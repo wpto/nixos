@@ -50,12 +50,14 @@ let
     bindsym ${mod}+t exec ${pkgs.gimp}/bin/gimp
    
     bindsym ${mod}+a focus parent
-#   bindsym ${mod}+s
+    bindsym ${mod}+s exec ${pkgs.scrot}/bin/scrot
     bindsym ${mod}+d exec dmenu_run
     bindsym ${mod}+f fullscreen toggle
     bindsym ${mod}+g exec ${pkgs.lxterminal}/bin/lxterminal -e "${pkgs.htop}/bin/htop"
 
-#   bindsym ${mod}+z
+    bindsym ${mod}+z exec ${pkgs.writeShellScript "dmenu-environment" ''
+      nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
+    ''}
     bindsym ${mod}+x focus mode_toggle
     bindsym ${mod}+c floating toggle 
     bindsym ${mod}+v split v
