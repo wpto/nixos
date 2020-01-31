@@ -2,84 +2,87 @@
 let
   mod = "Mod4";
   st = import ./st { inherit pkgs; };
-  generateWorkspace = num: ''
+  
+  # it's so messy. functions and settings are all together. ._.
+  bindings = {
+    q = "kill";
+    w = w "qbittorrent";
+    e = w "lxrandr";
+    r = w "firefox";
+    t = w "gimp";
+
+    a = "focus parent";
+    s = w "scrot";
+    d = "exec dmenu_run";    
+    f = "fullscreen toggle";
+    g = ''exec ${st}/bin/st -e "${pkgs.htop}/bin/htop"'';
+
+    z = "exec ${pkgs.writeShellScript "dmenu-environment" ''
+      nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
+    ''}";
+    x = "focus mode_toggle";
+    c = "floating toggle";
+    v = "split v";
+    b = "layout toggle split";
+    
+    y = "split h";
+    
+    h = "focus left";
+    j = "focus down";
+    k = "focus up";
+    l = "focus right";
+  # semicolon = ""; 
+
+    "Return" = "exec ${st}/bin/st";
+
+    "Shift+h" = "move left";
+    "Shift+j" = "move down";
+    "Shift+k" = "move up";
+    "Shift+l" = "move right";    
+
+    "Shift+c" = "reload";
+    "Shift+r" = "restart";
+
+  };
+
+  w = p: "exec ${builtins.getAttr p pkgs}/bin/${p}"; 
+
+  generateWorkspace = nn: let num = builtins.toString nn; in ''
     bindsym ${mod}+${num} workspace number "${num}"
-    bindsym ${mod}+Shift+${num} move container to workspace number "${num}"
-  '';
+    bindsym ${mod}+Shift+${num} move container to workspace number "${num}"'';
+
+  generateBinding = {name, value, ...}: ''bindsym ${mod}+${name} ${value}'';
+
+  zipWithA = f: a: # applicative functor as you can see <*>. does anybody see this in pkgs.lib? # strange grammar. sorry
+    if builtins.length a == 0
+    then []
+    else let
+           ha = builtins.head a;
+           hf = builtins.head f;
+           ta = builtins.tail a;
+           tf = builtins.tail f;
+         in [(hf ha)] ++ zipWithA tf ta;
+
   configFile = ''
     floating_modifier ${mod}
-    
     for_window [class=".*"] border pixel 1
+    
+    # workspaces
+    ${pkgs.lib.concatStringsSep "\n" (map generateWorkspace (builtins.genList (x: x+1) 9))}
 
-    bindsym ${mod}+Return exec ${st}/bin/st
-
-    bindsym ${mod}+Shift+j move left
-    bindsym ${mod}+Shift+k move down 
-    bindsym ${mod}+Shift+l move up 
-    bindsym ${mod}+Shift+semicolon move right
-
-
-
-
-    bindsym ${mod}+1 workspace number "1"
-    bindsym ${mod}+2 workspace number "2"
-    bindsym ${mod}+3 workspace number "3"
-    bindsym ${mod}+4 workspace number "4"
-    bindsym ${mod}+5 workspace number "5"
-
-    bindsym ${mod}+6 workspace number "6"
-    bindsym ${mod}+7 workspace number "7"
-    bindsym ${mod}+8 workspace number "8"
-    bindsym ${mod}+9 workspace number "9"
     bindsym ${mod}+0 workspace number "10"
-
-
-    bindsym ${mod}+Shift+1 move container to workspace number "1"
-    bindsym ${mod}+Shift+2 move container to workspace number "2"
-    bindsym ${mod}+Shift+3 move container to workspace number "3"
-    bindsym ${mod}+Shift+4 move container to workspace number "4"
-    bindsym ${mod}+Shift+5 move container to workspace number "5"
-
-    bindsym ${mod}+Shift+6 move container to workspace number "6"
-    bindsym ${mod}+Shift+7 move container to workspace number "7"
-    bindsym ${mod}+Shift+8 move container to workspace number "8"
-    bindsym ${mod}+Shift+9 move container to workspace number "9"
     bindsym ${mod}+Shift+0 move container to workspace number "10"
     
-    bindsym ${mod}+Shift+c reload
-    bindsym ${mod}+Shift+r restart
 
-     
-    bindsym ${mod}+q kill
-    bindsym ${mod}+w exec ${pkgs.qbittorrent}/bin/qbittorrent
-    bindsym ${mod}+e exec ${pkgs.lxrandr}/bin/lxrandr
-    bindsym ${mod}+r exec ${pkgs.firefox}/bin/firefox
-    bindsym ${mod}+t exec ${pkgs.gimp}/bin/gimp
-   
-    bindsym ${mod}+a focus parent
-    bindsym ${mod}+s exec ${pkgs.scrot}/bin/scrot
-    bindsym ${mod}+d exec dmenu_run
-    bindsym ${mod}+f fullscreen toggle
-    bindsym ${mod}+g exec ${st}/bin/st -e "${pkgs.htop}/bin/htop"
+    # bindings
+    ${let
+      config = bindings;
+      concat = left: right: left + right;
+      modAdded = builtins.attrNames config; #map (concat "${mod}") (builtins.attrNames config);
+      pp = map pkgs.lib.nameValuePair modAdded;
+      cc = zipWithA pp (builtins.attrValues config);
+    in pkgs.lib.concatStringsSep "\n" (map generateBinding cc)}
 
-    bindsym ${mod}+z exec ${pkgs.writeShellScript "dmenu-environment" ''
-      nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
-    ''}
-    bindsym ${mod}+x focus mode_toggle
-    bindsym ${mod}+c floating toggle 
-    bindsym ${mod}+v split v
-    bindsym ${mod}+b layout toggle split
-
-# yuiop
-    bindsym ${mod}+y split h
-
-    bindsym ${mod}+h focus left
-    bindsym ${mod}+j focus down
-    bindsym ${mod}+k focus up
-    bindsym ${mod}+l focus right
-#   bindsym ${mod}+semicolon 
-
-# nm,./
 
     bar {
       status_command i3status
