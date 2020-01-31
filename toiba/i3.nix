@@ -1,10 +1,17 @@
 { config, pkgs, ... }:
 let
   mod = "Mod4";
+  st = import ./st { inherit pkgs; };
+  generateWorkspace = num: ''
+    bindsym ${mod}+${num} workspace number "${num}"
+    bindsym ${mod}+Shift+${num} move container to workspace number "${num}"
+  '';
   configFile = ''
     floating_modifier ${mod}
     
-    bindsym ${mod}+Return exec ${pkgs.lxterminal}/bin/lxterminal
+    for_window [class=".*"] border pixel 1
+
+    bindsym ${mod}+Return exec ${st}/bin/st
 
     bindsym ${mod}+Shift+j move left
     bindsym ${mod}+Shift+k move down 
@@ -53,7 +60,7 @@ let
     bindsym ${mod}+s exec ${pkgs.scrot}/bin/scrot
     bindsym ${mod}+d exec dmenu_run
     bindsym ${mod}+f fullscreen toggle
-    bindsym ${mod}+g exec ${pkgs.lxterminal}/bin/lxterminal -e "${pkgs.htop}/bin/htop"
+    bindsym ${mod}+g exec ${st}/bin/st -e "${pkgs.htop}/bin/htop"
 
     bindsym ${mod}+z exec ${pkgs.writeShellScript "dmenu-environment" ''
       nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
