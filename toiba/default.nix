@@ -10,6 +10,9 @@ rec {
       ./wifi.nix
       ./nginx-file-server.nix
 
+      ./users.nix
+      ./other.nix
+
       ./programs/tor/default.nix
       ./xserver.nix
       ./i3.nix
@@ -18,11 +21,11 @@ rec {
     ];
 
   # default.nix launch specific settings here
-  boot.loader.grup.enable = true;
-  boot.loader.grup.version = 2;
-  boot.loader.grup.device = "/dev/sda";
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.device = "/dev/sda";
 
-  networking.hostname = "toiba";
+  networking.hostName = "nn";
   networking.wireless.enable = true;
  
   networking.useDHCP = false;
