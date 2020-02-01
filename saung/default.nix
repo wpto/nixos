@@ -30,7 +30,7 @@ rec {
 
   # environment
   environment.systemPackages = with pkgs; [
-    wget vim
+    wget vim git steam
   ];
 
   # sound

@@ -17,6 +17,7 @@ with pkgs.lib; {
 
   # kodi event server
     (mkIf config.services.xserver.desktopManager.kodi.enable 9777)
+    (mkIf config.services.xserver.desktopManager.kodi.enable 1900)
 
   ];
 }

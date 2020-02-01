@@ -2,6 +2,10 @@
 let
   userSettings = {};
 in {
+  imports = [
+    ./fonts.nix
+  ];
+
   services.xserver = {
     enable = true;
     layout = "us,ru";
@@ -18,5 +22,11 @@ in {
       xrdb -override ${pkgs.writeText "xresources-file" (import ./xresources.nix pkgs)};
     '';
 
+  };
+
+  services.compton = {
+    enable = true;
+    backend = "glx";
+    vSync = true;
   };
 }
