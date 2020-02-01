@@ -2,7 +2,11 @@
 let
   mod = "Mod4";
   st = import ./st { inherit pkgs; };
+  launchTerminal = ''exec ${st}/bin/st -f "Terminus:size=8"'';
+  # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
+  fontPango = "Terminus 12px";
   
+
   # it's so messy. functions and settings are all together. ._.
   bindings = {
     q = "kill";
@@ -15,7 +19,7 @@ let
     s = w "scrot";
     d = "exec dmenu_run";    
     f = "fullscreen toggle";
-    g = ''exec ${st}/bin/st -e "${pkgs.htop}/bin/htop"'';
+    g = ''${launchTerminal} -e "${pkgs.htop}/bin/htop"'';
 
     z = "exec ${pkgs.writeShellScript "dmenu-environment" ''
       nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
@@ -33,7 +37,7 @@ let
     l = "focus right";
   # semicolon = ""; 
 
-    "Return" = "exec ${st}/bin/st";
+    "Return" = launchTerminal;
 
     "Shift+h" = "move left";
     "Shift+j" = "move down";
@@ -64,6 +68,9 @@ let
          in [(hf ha)] ++ zipWithA tf ta;
 
   configFile = ''
+
+    font pango: ${fontPango}
+ 
     floating_modifier ${mod}
     for_window [class=".*"] border pixel 1
     

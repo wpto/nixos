@@ -7,15 +7,16 @@
       noto-fonts-emoji
       source-han-sans-japanese
       source-han-serif-japanese
+      terminus_font
     ];
 
     fontconfig = {
       enable = true;
-      allowBitmaps = false;
+      allowBitmaps = true;
       defaultFonts = {
         sansSerif = [ "FreeSans" "Source Han Sans JP" ];
         serif = [ "FreeSerif" "Source Han Serif JP" ];
-        monospace = [ "Liberation Mono" ];
+        monospace = [ "Terminus" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
