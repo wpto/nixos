@@ -12,7 +12,7 @@ let
     q = "kill";
     w = w "qbittorrent";
     e = w "lxrandr";
-    r = w "firefox";
+    r = w "qutebrowser";
     t = w "gimp";
 
     a = "focus parent";
