@@ -1,23 +1,10 @@
 { config, pkgs, ... }:
 rec {
   imports =
-    [ # Include the results of the hardware scan.
-    
-      # (./. + builtins.toPath "/hardware/${systemName}/configuration.nix")
-      #./programs/sxhkd/default.nix
-      #./hardware/1/configuration.nix
+    [
       ./hardware-configuration.nix
       ./wifi.nix
-      ./nginx-file-server.nix
-
-      ./users.nix
-      ./other.nix
-
-      ./programs/tor/default.nix
-      ./xserver.nix
-      ./i3.nix
-      ./environment.nix
-      ./zsh.nix
+      ./imports.nix
     ];
 
   # default.nix launch specific settings here
