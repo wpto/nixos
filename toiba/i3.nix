@@ -6,6 +6,7 @@ let
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "Terminus 12px";
   
+  highlightColor = "#FD971F"; # monokai.. love it
 
   # it's so messy. functions and settings are all together. ._.
   bindings = {
@@ -90,11 +91,12 @@ let
       cc = zipWithA pp (builtins.attrValues config);
     in pkgs.lib.concatStringsSep "\n" (map generateBinding cc)}
 
-
     bar {
       status_command i3status
       position top
     }
+
+    client.focused  ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor}
    
   '';
 in {

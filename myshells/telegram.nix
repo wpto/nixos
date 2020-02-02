@@ -4,6 +4,6 @@ stdenv.mkDerivation {
   name = "telegram-environment";
   buildInputs = [];
   shellHook = ''
-    ${tdesktop}/bin/telegram
+    ${tdesktop}/bin/telegram-desktop
   '';
 }
