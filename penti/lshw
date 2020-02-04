@@ -1,0 +1,327 @@
+penti
+    description: Desktop Computer
+    width: 4294967295 bits
+    capabilities: smbios-2.3 dmi-2.3 smp vsyscall32
+    configuration: boot=normal chassis=desktop
+  *-core
+       description: Motherboard
+       product: 945 7AD Series
+       vendor: Foxconn
+       physical id: 0
+       serial: UYEC64301922
+     *-firmware
+          description: BIOS
+          vendor: Phoenix Technologies, LTD
+          physical id: 0
+          version: 6.00 PG
+          date: 10/23/2006
+          size: 128KiB
+          capacity: 448KiB
+          capabilities: isa pci pnp apm upgrade shadowing escd cdboot bootselect socketedrom edd int13floppy360 int13floppy1200 int13floppy720 int13floppy2880 int5printscreen int9keyboard int14serial int17printer int10video acpi usb ls120boot zipboot biosbootspecification
+     *-cpu
+          description: CPU
+          product: Genuine Intel(R) CPU            2160  @ 1.80GHz
+          vendor: Intel Corp.
+          physical id: 4
+          bus info: cpu@0
+          version: Genuine Intel(R) CPU
+          slot: Socket 775
+          size: 1196MHz
+          capacity: 3066MHz
+          width: 64 bits
+          clock: 200MHz
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 cx16 xtpr pdcm lahf_lm pti dtherm cpufreq
+        *-cache
+             description: L1 cache
+             physical id: a
+             slot: Internal Cache
+             size: 32KiB
+             capacity: 32KiB
+             capabilities: synchronous internal write-back
+             configuration: level=1
+     *-memory
+          description: System Memory
+          physical id: 21
+          slot: System board or motherboard
+          size: 2GiB
+        *-bank:0
+             description: DIMM DDR2 Synchronous
+             product: None
+             vendor: None
+             physical id: 0
+             serial: None
+             slot: A0
+             size: 1GiB
+             width: 64 bits
+        *-bank:1
+             description: DIMM [empty]
+             product: None
+             vendor: None
+             physical id: 1
+             serial: None
+             slot: A1
+        *-bank:2
+             description: DIMM DDR2 Synchronous
+             product: None
+             vendor: None
+             physical id: 2
+             serial: None
+             slot: A2
+             size: 1GiB
+             width: 64 bits
+        *-bank:3
+             description: DIMM [empty]
+             product: None
+             vendor: None
+             physical id: 3
+             serial: None
+             slot: A3
+     *-pci
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 81
+          width: 32 bits
+          clock: 33MHz
+        *-pci:0
+             physical id: 1
+             bus info: pci@0000:00:01.0
+             version: 81
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm msi pciexpress bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:16 ioport:b000(size=4096) memory:f8000000-fbffffff ioport:d0000000(size=268435456)
+           *-display
+                physical id: 0
+                bus info: pci@0000:01:00.0
+                version: a1
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress bus_master cap_list rom
+                configuration: driver=nouveau latency=0
+                resources: irq:25 memory:fa000000-faffffff memory:d0000000-dfffffff memory:f8000000-f9ffffff ioport:bf00(size=128) memory:c0000-dffff
+        *-multimedia
+             physical id: 1b
+             bus info: pci@0000:00:1b.0
+             version: 01
+             width: 64 bits
+             clock: 33MHz
+             capabilities: pm msi pciexpress bus_master cap_list
+             configuration: driver=snd_hda_intel latency=0
+             resources: irq:24 memory:fdff8000-fdffbfff
+        *-pci:1
+             physical id: 1c
+             bus info: pci@0000:00:1c.0
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pciexpress msi pm bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:16 ioport:a000(size=4096) memory:fda00000-fdafffff ioport:fd700000(size=1048576)
+        *-pci:2
+             physical id: 1c.2
+             bus info: pci@0000:00:1c.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pciexpress msi pm bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:18 ioport:e000(size=4096) memory:fde00000-fdefffff ioport:fdd00000(size=1048576)
+           *-network
+                description: Ethernet interface
+                physical id: 0
+                bus info: pci@0000:03:00.0
+                logical name: enp3s0
+                version: 01
+                serial: 00:15:58:8b:e6:e4
+                size: 1Gbit/s
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm vpd msi pciexpress bus_master cap_list rom ethernet physical tp mii 10bt 10bt-fd 100bt 100bt-fd 1000bt 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=r8169 duplex=full ip=192.168.1.33 latency=0 link=yes multicast=yes port=MII speed=1Gbit/s
+                resources: irq:18 ioport:ee00(size=256) memory:fdeff000-fdefffff memory:fde00000-fde1ffff
+        *-pci:3
+             physical id: 1c.3
+             bus info: pci@0000:00:1c.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pciexpress msi pm bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:19 ioport:d000(size=4096) memory:fdc00000-fdcfffff ioport:fdb00000(size=1048576)
+           *-storage
+                physical id: 0
+                bus info: pci@0000:04:00.0
+                version: 02
+                width: 32 bits
+                clock: 33MHz
+                capabilities: storage pm pciexpress bus_master cap_list rom
+                configuration: driver=ahci latency=0
+                resources: irq:19 memory:fdcfe000-fdcfffff memory:fdc00000-fdc0ffff
+           *-ide
+                physical id: 0.1
+                bus info: pci@0000:04:00.1
+                version: 02
+                width: 32 bits
+                clock: 33MHz
+                capabilities: ide pm bus_master cap_list
+                configuration: driver=pata_jmicron latency=0
+                resources: irq:16 ioport:df00(size=8) ioport:de00(size=4) ioport:dd00(size=8) ioport:dc00(size=4) ioport:db00(size=16)
+        *-usb:0
+             physical id: 1d
+             bus info: pci@0000:00:1d.0
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:23 ioport:ff00(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 4.19.88 uhci_hcd
+                physical id: 1
+                bus info: usb@2
+                logical name: usb2
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:1
+             physical id: 1d.1
+             bus info: pci@0000:00:1d.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:19 ioport:fe00(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 4.19.88 uhci_hcd
+                physical id: 1
+                bus info: usb@3
+                logical name: usb3
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+              *-usb
+                   description: Keyboard
+                   product: USB Keyboard
+                   vendor: Logitech
+                   physical id: 1
+                   bus info: usb@3:1
+                   version: 64.00
+                   capabilities: usb-1.10
+                   configuration: driver=usbhid maxpower=90mA speed=2Mbit/s
+        *-usb:2
+             physical id: 1d.2
+             bus info: pci@0000:00:1d.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:18 ioport:fd00(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 4.19.88 uhci_hcd
+                physical id: 1
+                bus info: usb@4
+                logical name: usb4
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:3
+             physical id: 1d.3
+             bus info: pci@0000:00:1d.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bus_master
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:16 ioport:fc00(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 4.19.88 uhci_hcd
+                physical id: 1
+                bus info: usb@5
+                logical name: usb5
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:4
+             physical id: 1d.7
+             bus info: pci@0000:00:1d.7
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm bus_master cap_list
+             configuration: driver=ehci-pci latency=0
+             resources: irq:23 memory:fdfff000-fdfff3ff
+           *-usbhost
+                product: EHCI Host Controller
+                vendor: Linux 4.19.88 ehci_hcd
+                physical id: 1
+                bus info: usb@1
+                logical name: usb1
+                version: 4.19
+                capabilities: usb-2.00
+                configuration: driver=hub slots=8 speed=480Mbit/s
+              *-usb
+                   description: Mass storage device
+                   product: USB Storage
+                   physical id: 7
+                   bus info: usb@1:7
+                   version: 96.02
+                   serial: 000000009602
+                   capabilities: usb-2.00 scsi
+                   configuration: driver=usb-storage maxpower=500mA speed=480Mbit/s
+        *-pci:4
+             physical id: 1e
+             bus info: pci@0000:00:1e.0
+             version: e1
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci bus_master cap_list
+             resources: ioport:c000(size=4096) memory:fd900000-fd9fffff ioport:fd800000(size=1048576)
+        *-isa
+             physical id: 1f
+             bus info: pci@0000:00:1f.0
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: isa bus_master cap_list
+             configuration: driver=lpc_ich latency=0
+             resources: irq:0
+        *-ide:0
+             physical id: 1f.1
+             bus info: pci@0000:00:1f.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: ide bus_master
+             configuration: driver=ata_piix latency=0
+             resources: irq:17 ioport:1f0(size=8) ioport:3f6 ioport:170(size=8) ioport:376 ioport:fb00(size=16)
+        *-ide:1
+             physical id: 1f.2
+             bus info: pci@0000:00:1f.2
+             version: 01
+             width: 32 bits
+             clock: 66MHz
+             capabilities: ide pm bus_master cap_list
+             configuration: driver=ata_piix latency=0
+             resources: irq:18 ioport:fa00(size=8) ioport:f900(size=4) ioport:f800(size=8) ioport:f700(size=4) ioport:f600(size=16) memory:fdffe000-fdffe3ff
+        *-serial
+             physical id: 1f.3
+             bus info: pci@0000:00:1f.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             configuration: driver=i801_smbus latency=0
+             resources: irq:18 ioport:500(size=32)
+  *-scsi
+       physical id: 1
+       bus info: scsi@8
+       logical name: scsi8
+       capabilities: scsi-host
+       configuration: driver=usb-storage

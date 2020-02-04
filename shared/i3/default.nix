@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 let
   mod = "Mod4";
-  st = import ./st { inherit pkgs; };
+  st = import ../st { inherit pkgs; };
   launchTerminal = ''exec ${st}/bin/st -f "Terminus:size=8"'';
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "Terminus 12px";
