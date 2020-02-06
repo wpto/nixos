@@ -1,13 +1,9 @@
 { config, pkgs, ... }:
 let
   mod = "Mod4";
-<<<<<<< HEAD:toiba/i3.nix
   st = import ./st { inherit pkgs; };
 
   gimpConfig = pkgs.writeText "gimp-config" (import ../shared/gimp-config.nix {});
-=======
-  st = import ../st { inherit pkgs; };
->>>>>>> dc27b5111a8a98515285bf715c4db905ce6d437a:shared/i3/default.nix
   launchTerminal = ''exec ${st}/bin/st -f "Terminus:size=8"'';
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "Terminus 12px";
