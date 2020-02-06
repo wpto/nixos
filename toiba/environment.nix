@@ -39,6 +39,8 @@
     "..." = "cd ../..";
     "...." = "cd ../../..";
 
+    pl = "cd ~/pl";
+
   };
 
   environment.shellInit = ''

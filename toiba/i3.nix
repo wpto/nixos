@@ -2,6 +2,8 @@
 let
   mod = "Mod4";
   st = import ./st { inherit pkgs; };
+
+  gimpConfig = pkgs.writeText "gimp-config" (import ../shared/gimp-config.nix {});
   launchTerminal = ''exec ${st}/bin/st -f "Terminus:size=8"'';
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "Terminus 12px";
@@ -14,7 +16,7 @@ let
     w = w "qbittorrent";
     e = w "lxrandr";
     r = w "qutebrowser";
-    t = w "gimp";
+    t = "${(w "gimp")} --system-gimprc ${gimpConfig}";
 
     a = "focus parent";
     s = w "scrot";
