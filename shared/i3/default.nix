@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 let
   mod = "Mod4";
-  st = import ./st { inherit pkgs; };
+  st = import ../st { inherit pkgs; };
 
-  gimpConfig = pkgs.writeText "gimp-config" (import ../shared/gimp-config.nix {});
+  gimpConfig = pkgs.writeText "gimp-config" (import ../gimp-config.nix {});
   launchTerminal = ''exec ${st}/bin/st -f "Terminus:size=8"'';
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "Terminus 12px";
