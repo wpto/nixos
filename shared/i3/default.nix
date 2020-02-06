@@ -8,7 +8,8 @@ let
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "Terminus 12px";
   
-  highlightColor = "#FD971F"; # monokai.. love it
+  # highlightColor = "#FD971F"; # monokai.. love it
+  highlightColor = "#AE81FF";
 
   # it's so messy. functions and settings are all together. ._.
   bindings = {
@@ -50,6 +51,8 @@ let
     "Shift+c" = "reload";
     "Shift+r" = "restart";
 
+    "i" = "$(launchTerminal) -e "HOME=""
+    
   };
 
   w = p: "exec ${builtins.getAttr p pkgs}/bin/${p}"; 

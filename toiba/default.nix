@@ -12,7 +12,7 @@ rec {
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "nn";
+  networking.hostName = "toiba";
   networking.wireless.enable = true;
  
   networking.useDHCP = false;

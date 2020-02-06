@@ -9,5 +9,6 @@
     ../shared/i3
     ./environment.nix
     ./zsh.nix
+    ../shared/emacs
   ];
 }
