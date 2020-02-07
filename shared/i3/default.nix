@@ -51,7 +51,7 @@ let
     "Shift+c" = "reload";
     "Shift+r" = "restart";
 
-    "i" = "$(launchTerminal) -e "HOME=""
+    "i" = ''HOME="" $(launchTerminal) -e $(pkgs.emacs)/bin/emacsclient'';
     
   };
 

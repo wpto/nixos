@@ -15,6 +15,7 @@
     uid = 1000;
     extraGroups = [];
     useDefaultShell = true;
+    packages = [] ++ (import ../pkgs {inherit pkgs;});
   };
  
   security.sudo = {
