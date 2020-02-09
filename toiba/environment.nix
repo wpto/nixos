@@ -36,6 +36,7 @@
     settings = "cd /etc/nixos/";
     sw = "sudo nixos-rebuild switch";
     ru = "sudo su";
+    st = "cd /nix/store/";
 
     gulp = "gulp --require coffeescript/register";
 

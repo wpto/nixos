@@ -96,7 +96,7 @@ let
     in pkgs.lib.concatStringsSep "\n" (map generateBinding cc)}
 
     bar {
-      status_command i3status
+      status_command i3status --config ${pkgs.writeText "i3-status-config" (import ./i3-status-config.nix {inherit config pkgs;})}
       position top
     }
 
@@ -104,6 +104,8 @@ let
     client.focused_inactive #000000 #000000 #000000 #000000 #000000
     client.unfocused #000000 #000000 #000000 #000000 #000000
     client.urgent #000000 #000000 #000000 #000000 #000000
+
+    exec_always --no-startup-id ${pkgs.fluxbox}/bin/fbsetroot -display :0 -gradient Horizontal -from "#338866" -to "#ee5500"
   '';
 in {
   services.xserver.windowManager = {
