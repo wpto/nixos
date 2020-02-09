@@ -10,5 +10,6 @@
     ./environment.nix
     ./zsh.nix
     ../shared/emacs
+    ./nginx-file-server.nix
   ];
 }

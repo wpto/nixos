@@ -30,6 +30,13 @@
     gg = "ga . && gc";
     gd = "git stash save --keep-index && git stash drop";
 
+    nb = "nix-build";
+    ns = "nix-shell";
+    np = "nix-shell -p";
+    settings = "cd /etc/nixos/";
+    sw = "sudo nixos-rebuild switch";
+    ru = "sudo su";
+
     gulp = "gulp --require coffeescript/register";
 
     q = "exit";

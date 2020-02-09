@@ -51,8 +51,7 @@ let
     "Shift+c" = "reload";
     "Shift+r" = "restart";
 
-    "i" = ''HOME="" $(launchTerminal) -e $(pkgs.emacs)/bin/emacsclient'';
-    
+    "i" = ''${launchTerminal} -e "HOME=' ' ${pkgs.emacs}/bin/emacsclient"'';
   };
 
   w = p: "exec ${builtins.getAttr p pkgs}/bin/${p}"; 
@@ -102,7 +101,9 @@ let
     }
 
     client.focused  ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor}
-   
+    client.focused_inactive #000000 #000000 #000000 #000000 #000000
+    client.unfocused #000000 #000000 #000000 #000000 #000000
+    client.urgent #000000 #000000 #000000 #000000 #000000
   '';
 in {
   services.xserver.windowManager = {
