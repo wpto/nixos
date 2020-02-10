@@ -34,6 +34,10 @@ let
     b = "layout toggle split";
     
     y = "split h";
+    u = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +1%";
+    i = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -1%";
+    o = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute   @DEFAULT_SINK@ toggle";
+  # p = "";
     
     h = "focus left";
     j = "focus down";
@@ -51,7 +55,7 @@ let
     "Shift+c" = "reload";
     "Shift+r" = "restart";
 
-    "i" = ''${launchTerminal} -e "HOME=' ' ${pkgs.emacs}/bin/emacsclient"'';
+    #"i" = ''${launchTerminal} -e "HOME=' ' ${pkgs.emacs}/bin/emacsclient"'';
   };
 
   w = p: "exec ${builtins.getAttr p pkgs}/bin/${p}"; 
