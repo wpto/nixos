@@ -31,6 +31,8 @@ ethernet eth0 {
 
 run_watch DHCP {
   pidfile = "/var/run/dhcpcd*.pid"
+  format = "D"
+  format_down = "D"
 }
 
 tztime local {
@@ -62,7 +64,7 @@ disk "/home" {
 
 volume master {
   format = "♪: %volume"
-  format_muted = "♪: muted"
+  format_muted = "♪"
   device = "default"
   mixer = "Master"
   mixer_idx = 0

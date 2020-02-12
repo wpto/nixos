@@ -48,6 +48,10 @@
     "...." = "cd ../../..";
 
     pl = "cd ~/pl";
+    pj = "cd ~/pj";
+
+    bsy = "browser-sync start --server --files '*'";
+    qui = "cd ~/quick/notes/";
 
   };
 
