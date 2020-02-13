@@ -10,6 +10,7 @@ in {
     enable = true;
     layout = "us,ru";
     xkbOptions = "grp:win_space_toggle,grp_led:scroll,caps:swapescape";
+    videoDrivers = [ "intel" ];
     
     desktopManager.xterm.enable = false;
 
