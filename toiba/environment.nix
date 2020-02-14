@@ -29,11 +29,12 @@
     gu = "git reset --hard HEAD~";
     gg = "ga . && gc";
     gd = "git stash save --keep-index && git stash drop";
+    gpu = "git push -u origin master";
 
     nb = "nix-build";
     ns = "nix-shell";
     np = "nix-shell -p";
-    settings = "cd /etc/nixos/";
+    sse = "cd /etc/nixos/ && sudo su";
     sw = "sudo nixos-rebuild switch";
     ru = "sudo su";
     st = "cd /nix/store/";
@@ -43,15 +44,17 @@
     q = "exit";
     h = "history";
 
-    ".." = "cd ..";
-    "..." = "cd ../..";
-    "...." = "cd ../../..";
+    "c1" = "cd ..";
+    "c2" = "cd ../..";
+    "c3" = "cd ../../..";
+    "c4" = "cd ../../../..";
 
     pl = "cd ~/pl";
     pj = "cd ~/pj";
 
     bsy = "browser-sync start --server --files '*'";
     qui = "cd ~/quick/notes/";
+
 
   };
 
