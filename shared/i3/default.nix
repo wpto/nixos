@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   mod = "Mod4";
   st = import ../st { inherit pkgs; };
@@ -18,8 +18,24 @@ let
   # highlightColor = "#FD971F"; # monokai.. love it
   highlightColor = "#AE81FF";
 
-  
+  bindsym = keys: action: "bindsym ${keys} ${action}";
 
+  zipWith = fn: first: second: let
+    hh = builtins.head;
+    tt = builtins.tail;
+  in
+    if first == []
+    then []
+    else (fn (hh first) (hh second)) ++
+         (zipWith fn (tt first) (tt second));
+
+  exec = prog: "exec ${builtins.getAttr prog pkgs}/bin/${prog}";
+
+  generateBindings = set: let
+    names = builtins.attrNames set;
+    values = builtins.attrValues set;
+  in
+    lib.concatStringsSep "\n" (zipWith wrapBinding names values);
   
 
   # it's so messy. functions and settings are all together. ._.
