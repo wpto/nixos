@@ -1,0 +1,398 @@
+nixos
+    description: Desktop Computer
+    product: System Product Name (To Be Filled By O.E.M.)
+    vendor: System manufacturer
+    version: System Version
+    serial: System Serial Number
+    width: 4294967295 bits
+    capabilities: smbios-2.5 dmi-2.5 smp vsyscall32
+    configuration: boot=normal chassis=desktop family=To Be Filled By O.E.M. sku=To Be Filled By O.E.M. uuid=007D05FB-8DFE-D511-B398-7824AFC0A98F
+  *-core
+       description: Motherboard
+       product: M5A78L-M LX3
+       vendor: ASUSTeK Computer INC.
+       physical id: 0
+       version: Rev X.0x
+       serial: 140830376001734
+       slot: To Be Filled By O.E.M.
+     *-firmware
+          description: BIOS
+          vendor: American Megatrends Inc.
+          physical id: 0
+          version: 1201
+          date: 04/19/2013
+          size: 64KiB
+          capacity: 1984KiB
+          capabilities: isa pci pnp apm upgrade shadowing escd cdboot bootselect socketedrom edd int13floppy1200 int13floppy720 int13floppy2880 int5printscreen int9keyboard int14serial int17printer int10video acpi usb ls120boot zipboot biosbootspecification
+     *-cpu
+          description: CPU
+          product: AMD FX(tm)-6300 Six-Core Processor
+          vendor: Advanced Micro Devices [AMD]
+          physical id: 4
+          bus info: cpu@0
+          version: AMD FX(tm)-6300 Six-Core Processor
+          serial: To Be Filled By O.E.M.
+          slot: AM3R2
+          size: 3548MHz
+          width: 64 bits
+          clock: 200MHz
+          capabilities: x86-64 fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsave avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext perfctr_core perfctr_nb cpb hw_pstate ssbd vmmcall bmi1 arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold cpufreq
+          configuration: cores=6 enabledcores=6 threads=6
+        *-cache:0
+             description: L1 cache
+             physical id: 5
+             slot: L1-Cache
+             size: 288KiB
+             capacity: 288KiB
+             clock: 1GHz (1.0ns)
+             capabilities: pipeline-burst internal write-back unified
+             configuration: level=1
+        *-cache:1
+             description: L2 cache
+             physical id: 6
+             slot: L2-Cache
+             size: 6MiB
+             capacity: 6MiB
+             clock: 1GHz (1.0ns)
+             capabilities: pipeline-burst internal write-back unified
+             configuration: level=2
+        *-cache:2
+             description: L3 cache
+             physical id: 7
+             slot: L3-Cache
+             size: 8MiB
+             capacity: 8MiB
+             clock: 1GHz (1.0ns)
+             capabilities: pipeline-burst internal write-back unified
+             configuration: level=3
+     *-memory
+          description: System Memory
+          physical id: 26
+          slot: System board or motherboard
+          size: 8GiB
+        *-bank:0
+             description: DIMM Synchronous 667 MHz (1.5 ns)
+             product: PartNum0
+             vendor: Manufacturer0
+             physical id: 0
+             serial: SerNum0
+             slot: DIMM0
+             size: 4GiB
+             width: 64 bits
+             clock: 667MHz (1.5ns)
+        *-bank:1
+             description: DIMM Synchronous 667 MHz (1.5 ns)
+             product: PartNum1
+             vendor: Manufacturer1
+             physical id: 1
+             serial: SerNum1
+             slot: DIMM1
+             size: 4GiB
+             width: 64 bits
+             clock: 667MHz (1.5ns)
+     *-pci:0
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 00
+          width: 32 bits
+          clock: 66MHz
+        *-pci:0
+             physical id: 2
+             bus info: pci@0000:00:02.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:18 ioport:d000(size=4096) memory:fd000000-feafffff ioport:ce000000(size=301989888)
+           *-display
+                physical id: 0
+                bus info: pci@0000:01:00.0
+                version: a2
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress bus_master cap_list rom
+                configuration: driver=nvidia latency=0
+                resources: irq:29 memory:fd000000-fdffffff memory:d0000000-dfffffff memory:ce000000-cfffffff ioport:dc00(size=128) memory:c0000-dffff
+           *-multimedia
+                physical id: 0.1
+                bus info: pci@0000:01:00.1
+                version: a1
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress bus_master cap_list
+                configuration: driver=snd_hda_intel latency=0
+                resources: irq:19 memory:fea7c000-fea7ffff
+        *-pci:1
+             physical id: 4
+             bus info: pci@0000:00:04.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:16 ioport:e000(size=4096) memory:feb00000-febfffff
+           *-network
+                description: Ethernet interface
+                physical id: 0
+                bus info: pci@0000:02:00.0
+                logical name: enp2s0
+                version: 10
+                serial: 78:24:af:c0:a9:8f
+                size: 1Gbit/s
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=alx duplex=full ip=192.168.1.52 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                resources: irq:16 memory:febc0000-febfffff ioport:ec00(size=128)
+        *-storage
+             physical id: 11
+             bus info: pci@0000:00:11.0
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: storage pm bus_master cap_list
+             configuration: driver=ahci latency=64
+             resources: irq:22 ioport:c000(size=8) ioport:b000(size=4) ioport:a000(size=8) ioport:9000(size=4) ioport:8000(size=16) memory:fcfffc00-fcffffff
+        *-usb:0
+             physical id: 12
+             bus info: pci@0000:00:12.0
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: bus_master
+             configuration: driver=ohci-pci latency=64
+             resources: irq:16 memory:fcffe000-fcffefff
+           *-usbhost
+                product: OHCI PCI host controller
+                vendor: Linux 4.19.103 ohci_hcd
+                physical id: 1
+                bus info: usb@3
+                logical name: usb3
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=3 speed=12Mbit/s
+              *-usb
+                   description: Keyboard
+                   product: USB Device
+                   vendor: COMPANY
+                   physical id: 3
+                   bus info: usb@3:3
+                   version: 99.00
+                   capabilities: usb-1.10
+                   configuration: driver=usbhid maxpower=100mA speed=12Mbit/s
+        *-usb:1
+             physical id: 12.1
+             bus info: pci@0000:00:12.1
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: bus_master
+             configuration: driver=ohci-pci latency=64
+             resources: irq:16 memory:fcffd000-fcffdfff
+           *-usbhost
+                product: OHCI PCI host controller
+                vendor: Linux 4.19.103 ohci_hcd
+                physical id: 1
+                bus info: usb@4
+                logical name: usb4
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=3 speed=12Mbit/s
+              *-usb
+                   description: Keyboard
+                   product: USB Keyboard
+                   vendor: Logitech
+                   physical id: 1
+                   bus info: usb@4:1
+                   version: 64.00
+                   capabilities: usb-1.10
+                   configuration: driver=usbhid maxpower=90mA speed=2Mbit/s
+        *-usb:2
+             physical id: 12.2
+             bus info: pci@0000:00:12.2
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: pm debug bus_master cap_list
+             configuration: driver=ehci-pci latency=64
+             resources: irq:17 memory:fcfff800-fcfff8ff
+           *-usbhost
+                product: EHCI Host Controller
+                vendor: Linux 4.19.103 ehci_hcd
+                physical id: 1
+                bus info: usb@1
+                logical name: usb1
+                version: 4.19
+                capabilities: usb-2.00
+                configuration: driver=hub slots=6 speed=480Mbit/s
+              *-usb
+                   description: Mass storage device
+                   product: DataTraveler 2.0
+                   vendor: Kingston
+                   physical id: 2
+                   bus info: usb@1:2
+                   version: 1.00
+                   serial: 60A44C413C9CFEC0C98823C5
+                   capabilities: usb-2.00 scsi
+                   configuration: driver=usb-storage maxpower=100mA speed=480Mbit/s
+        *-usb:3
+             physical id: 13
+             bus info: pci@0000:00:13.0
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: bus_master
+             configuration: driver=ohci-pci latency=64
+             resources: irq:18 memory:fcffc000-fcffcfff
+           *-usbhost
+                product: OHCI PCI host controller
+                vendor: Linux 4.19.103 ohci_hcd
+                physical id: 1
+                bus info: usb@5
+                logical name: usb5
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=3 speed=12Mbit/s
+        *-usb:4
+             physical id: 13.1
+             bus info: pci@0000:00:13.1
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: bus_master
+             configuration: driver=ohci-pci latency=64
+             resources: irq:18 memory:fcffb000-fcffbfff
+           *-usbhost
+                product: OHCI PCI host controller
+                vendor: Linux 4.19.103 ohci_hcd
+                physical id: 1
+                bus info: usb@6
+                logical name: usb6
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=3 speed=12Mbit/s
+        *-usb:5
+             physical id: 13.2
+             bus info: pci@0000:00:13.2
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: pm debug bus_master cap_list
+             configuration: driver=ehci-pci latency=64
+             resources: irq:19 memory:fcfff400-fcfff4ff
+           *-usbhost
+                product: EHCI Host Controller
+                vendor: Linux 4.19.103 ehci_hcd
+                physical id: 1
+                bus info: usb@2
+                logical name: usb2
+                version: 4.19
+                capabilities: usb-2.00
+                configuration: driver=hub slots=6 speed=480Mbit/s
+        *-serial UNCLAIMED
+             physical id: 14
+             bus info: pci@0000:00:14.0
+             version: 3c
+             width: 32 bits
+             clock: 66MHz
+             capabilities: ht cap_list
+             configuration: latency=0
+        *-ide
+             physical id: 14.1
+             bus info: pci@0000:00:14.1
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: ide msi bus_master cap_list
+             configuration: driver=pata_atiixp latency=64
+             resources: irq:16 ioport:1f0(size=8) ioport:3f6 ioport:170(size=8) ioport:376 ioport:ff00(size=16)
+        *-multimedia
+             physical id: 14.2
+             bus info: pci@0000:00:14.2
+             version: 00
+             width: 64 bits
+             clock: 33MHz
+             capabilities: pm bus_master cap_list
+             configuration: driver=snd_hda_intel latency=64
+             resources: irq:16 memory:fcff4000-fcff7fff
+        *-isa
+             physical id: 14.3
+             bus info: pci@0000:00:14.3
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: isa bus_master
+             configuration: latency=0
+        *-pci:2
+             physical id: 14.4
+             bus info: pci@0000:00:14.4
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: pci bus_master
+        *-usb:6
+             physical id: 14.5
+             bus info: pci@0000:00:14.5
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: bus_master
+             configuration: driver=ohci-pci latency=64
+             resources: irq:18 memory:fcffa000-fcffafff
+           *-usbhost
+                product: OHCI PCI host controller
+                vendor: Linux 4.19.103 ohci_hcd
+                physical id: 1
+                bus info: usb@7
+                logical name: usb7
+                version: 4.19
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+     *-pci:1
+          physical id: 101
+          bus info: pci@0000:00:18.0
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:2
+          physical id: 102
+          bus info: pci@0000:00:18.1
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:3
+          physical id: 103
+          bus info: pci@0000:00:18.2
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:4
+          physical id: 104
+          bus info: pci@0000:00:18.3
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+          configuration: driver=k10temp
+          resources: irq:0
+     *-pci:5
+          physical id: 105
+          bus info: pci@0000:00:18.4
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+          configuration: driver=fam15h_power
+          resources: irq:0
+     *-pci:6
+          physical id: 106
+          bus info: pci@0000:00:18.5
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+  *-scsi
+       physical id: 1
+       bus info: scsi@6
+       logical name: scsi6
+       capabilities: scsi-host
+       configuration: driver=usb-storage

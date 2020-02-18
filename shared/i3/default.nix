@@ -2,14 +2,25 @@
 let
   mod = "Mod4";
   st = import ../st { inherit pkgs; };
+  fontName = "Terminus";
+  fontSize = 12; # px
+  toStr = builtins.toString;
+
+  gradientStart = "#b4cbdd";
+  gradientEnd   = "#403d55";
+  gradientType  = "Vertical";
 
   gimpConfig = pkgs.writeText "gimp-config" (import ../gimp-config.nix {});
-  launchTerminal = ''exec ${st}/bin/st -f "Terminus:size=8"'';
+  launchTerminal = ''exec ${st}/bin/st -f "${fontName}:size=${toStr (fontSize / 4 * 3)}"'';
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
-  fontPango = "Terminus 12px";
+  fontPango = "${fontName} ${toStr fontSize}px";
   
   # highlightColor = "#FD971F"; # monokai.. love it
   highlightColor = "#AE81FF";
+
+  
+
+  
 
   # it's so messy. functions and settings are all together. ._.
   bindings = {
@@ -109,7 +120,7 @@ let
     client.unfocused #000000 #000000 #000000 #000000 #000000
     client.urgent #000000 #000000 #000000 #000000 #000000
 
-    exec_always --no-startup-id ${pkgs.fluxbox}/bin/fbsetroot -display :0 -gradient Horizontal -from "#338866" -to "#ee5500"
+    exec_always --no-startup-id ${pkgs.fluxbox}/bin/fbsetroot -display :0 -gradient "${gradientType}" -from "${gradientStart}" -to "${gradientEnd}"
   '';
 in {
   services.xserver.windowManager = {
