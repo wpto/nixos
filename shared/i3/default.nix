@@ -20,7 +20,11 @@ let
 
   
 
-  
+  subl = "${pkgs.sublime3}/bin/subl";  
+  ppsspp = "${pkgs.ppsspp}/bin/ppsspp";
+  obs = "${pkgs.obs-studio}/bin/obs";
+
+  exec = arg: "exec ${arg}";
 
   # it's so messy. functions and settings are all together. ._.
   bindings = {
@@ -48,13 +52,23 @@ let
     u = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +1%";
     i = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -1%";
     o = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute   @DEFAULT_SINK@ toggle";
-  # p = "";
+    p = w "atom";
     
     h = "focus left";
     j = "focus down";
     k = "focus up";
     l = "focus right";
-  # semicolon = ""; 
+    semicolon = "exec sudo ${subl} /etc/nixos/"; 
+
+    n = exec subl;
+    m = exec obs;
+  # "," = "exec sudo nixos-rebuild switch && i3-msg restart";
+  # "." = exec subl;
+  # "/" = "";
+
+    "Shift+n" = "exec sudo nixos-rebuild switch && i3-msg restart";
+    "Shift+m" = exec "ppsspp";
+
 
     "Return" = launchTerminal;
 

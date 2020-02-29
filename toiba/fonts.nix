@@ -8,6 +8,7 @@
       source-han-sans-japanese
       source-han-serif-japanese
       terminus_font
+      liberation_ttf
     ];
 
     fontconfig = {
@@ -16,7 +17,7 @@
       defaultFonts = {
         sansSerif = [ "FreeSans" "Source Han Sans JP" ];
         serif = [ "FreeSerif" "Source Han Serif JP" ];
-        monospace = [ "Terminus" ];
+        monospace = [ "Terminus" "Liberation Mono" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };

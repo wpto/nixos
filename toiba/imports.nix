@@ -12,4 +12,6 @@
     ../shared/emacs
     ./nginx-file-server.nix
   ];
+
+  nixpkgs.config.allowUnfree = true;
 }

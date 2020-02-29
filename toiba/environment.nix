@@ -1,12 +1,18 @@
 { config, pkgs, ... }:
-{
-  nixpkgs.config.allowUnfree = true;
+let
+  unstableTarball = fetchTarball
+    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+in {
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: { unstable = import unstableTarball { config = config.nixpkgs.config;}; st = import ../shared/st { inherit pkgs; };  };
+  };
 
-  programs.vim.defaultEditor = true;
+# programs.vim.defaultEditor = true;
 
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
-    git vim wget zathura
+    git vim wget zathura unstable.ppsspp
   ];
   
   environment.shellAliases = {
@@ -54,10 +60,16 @@
 
     bsy = "browser-sync start --server --files '*'";
     qui = "cd ~/quick/notes/";
-
-
   };
 
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableGlobalCompInit = true;
+    autosuggestions.enable = true;
+    
+  };
+  
   environment.shellInit = ''
 
   '';
