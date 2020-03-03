@@ -3,6 +3,7 @@ rec {
   imports = [ 
     ./hardware-configuration.nix
     ../toiba/imports.nix
+    ./xserver-override.nix
   ];
 
   boot.loader.grub.enable = true;

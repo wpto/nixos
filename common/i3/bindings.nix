@@ -1,0 +1,65 @@
+{ config, lib, pkgs, ... }:
+
+let 
+  mod = "Mod4";
+
+  launchTerminal = 
+
+  exe  = p: "exec ${builtins.getAttr p pkgs}/bin/${p}"; 
+  exec = arg: "exec ${arg}";
+
+  bindings = {
+    q = "kill";
+    w = exe "qbittorrent";
+    e = exe "lxrandr";
+    r = exe "qutebrowser";
+    t = exe "gimp";
+
+    a = "focus parent";
+    s = exe "scrot";
+    d = "exec ${pkgs.writeShellScript "dmenu-environment" ''
+      nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
+    ''}";   
+    f = "fullscreen toggle";
+    g = ''${launchTerminal} -e "${pkgs.htop}/bin/htop"'';
+
+  # z = "";
+    x = "focus mode_toggle";
+    c = "floating toggle";
+    v = "split v";
+    b = "layout toggle split";
+    
+    y = "split h";
+    u = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +1%";
+    i = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -1%";
+    o = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute   @DEFAULT_SINK@ toggle";
+    p = w "atom";
+    
+    h = "focus left";
+    j = "focus down";
+    k = "focus up";
+    l = "focus right";
+    semicolon = "exec sudo ${subl} /etc/nixos/"; 
+
+    n = exec ppsspp;
+    m = exec obs;
+  # "," = "";
+  # "." = "";
+  # "/" = "";
+
+    "Return" = launchTerminal;
+
+    "Shift+h" = "move left";
+    "Shift+j" = "move down";
+    "Shift+k" = "move up";
+    "Shift+l" = "move right";    
+
+    "Shift+c" = "reload";
+    "Shift+r" = "restart";
+
+    #"i" = ''${launchTerminal} -e "HOME=' ' ${pkgs.emacs}/bin/emacsclient"'';
+  };
+
+{
+	
+}
