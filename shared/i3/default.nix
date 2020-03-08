@@ -134,8 +134,9 @@ let
     client.unfocused #000000 #000000 #000000 #000000 #000000
     client.urgent #000000 #000000 #000000 #000000 #000000
 
-    exec_always --no-startup-id ${pkgs.fluxbox}/bin/fbsetroot -display :0 -gradient "${gradientType}" -from "${gradientStart}" -to "${gradientEnd}"
-  '';
+  '' +
+
+  import ./other.nix { inherit pkgs config; };
 in {
   services.xserver.windowManager = {
     default = "i3";
