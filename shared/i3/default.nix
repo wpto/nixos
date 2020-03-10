@@ -11,7 +11,8 @@ let
   gradientType  = "Vertical";
 
   gimpConfig = pkgs.writeText "gimp-config" (import ../gimp-config.nix {});
-  launchTerminal = ''exec ${st}/bin/st -f "${fontName}:size=${toStr (fontSize / 4 * 3)}"'';
+  #launchTerminal = ''exec ${st}/bin/st -f "${fontName}:size=${toStr (fontSize / 4 * 3)}"'';
+  launchTerminal = "exec ${st}/bin/st";
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
   fontPango = "${fontName} ${toStr fontSize}px";
   

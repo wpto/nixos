@@ -5,7 +5,10 @@ let
 in {
   nixpkgs.config = {
     allowUnfree = true;
-    packageOverrides = pkgs: { unstable = import unstableTarball { config = config.nixpkgs.config;}; st = import ../shared/st { inherit pkgs; };  };
+    packageOverrides = pkgs: {
+     unstable = import unstableTarball { config = config.nixpkgs.config;};
+     st = import ../shared/st { inherit pkgs; };
+    };
   };
 
 # programs.vim.defaultEditor = true;
@@ -14,6 +17,7 @@ in {
   environment.systemPackages = with pkgs; [
     git vim wget zathura unstable.ppsspp
     nodejs nodePackages.nodemon nodePackages.coffee-script
+    sublime3
   ];
   
   environment.shellAliases = {
