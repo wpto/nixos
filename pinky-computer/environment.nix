@@ -16,8 +16,8 @@ in {
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
     git vim wget zathura unstable.ppsspp
-    nodejs nodePackages.nodemon nodePackages.coffee-script
-    sublime3
+    nodejs nodePackages.nodemon nodePackages.coffee-script nodePackages.prettier
+    sublime3 unzip ffmpeg unstable.youtube-dl
   ];
   
   environment.shellAliases = {
