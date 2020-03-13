@@ -63,6 +63,10 @@ in {
 
     bsy = "browser-sync start --server --files '*'";
     qui = "cd ~/quick/notes/";
+    "display-off" = "sudo sh -c 'sleep 3; xset -display :0.0 dpms force off; read ans; xset -display :0.0 dpms force on'";
+    #"displayoff" = "sudo sh -c 'sleep 1; xrandr --output LVDS-1 --off; read ans; xrandr --output LVDS-1 --auto'";
+
+    "yt-audio" = ''youtube-dl -i --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'';
   };
 
   programs.zsh = {

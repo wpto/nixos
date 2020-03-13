@@ -9,7 +9,7 @@ in {
   services.xserver = {
     enable = true;
     layout = "us,ru";
-    xkbOptions = "grp:win_space_toggle,caps:swapescape";
+    xkbOptions = "grp:win_space_toggle,grp_led:scroll,caps:swapescape,keypad:pointerkeys";
  #   videoDrivers = [ "intel" ];
     
     desktopManager.xterm.enable = false;

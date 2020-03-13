@@ -132,5 +132,7 @@ let
     client.urgent #000000 #000000 #000000 #000000 #000000
 
     exec_always --no-startup-id ${pkgs.fluxbox}/bin/fbsetroot -display :0 -gradient "${gradientType}" -from "${gradientStart}" -to "${gradientEnd}"
+
+    focus_follows_mouse no
   '';
 in pkgs.writeText "i3-config-file" configFile
