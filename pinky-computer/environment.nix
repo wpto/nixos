@@ -1,12 +1,18 @@
 { config, pkgs, ... }:
 let
-  unstableTarball = fetchTarball
-    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+  enableUnstable = false;
+  #unstableTarball = if enableUnstable then 
+  #  (fetchTarball
+  #    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz)
+  #else
+  # '';
+    
+  secret = import ../secret.nix;
 in {
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
-     unstable = import unstableTarball { config = config.nixpkgs.config;};
+     # unstable = import unstableTarball { config = config.nixpkgs.config;};
      st = import ../shared/st { inherit pkgs; };
     };
   };
@@ -15,9 +21,10 @@ in {
 
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
-    git vim wget zathura unstable.ppsspp
+    git vim wget zathura # unstable.ppsspp
     nodejs nodePackages.nodemon nodePackages.coffee-script nodePackages.prettier
-    sublime3 unzip ffmpeg unstable.youtube-dl
+    sublime3 unzip ffmpeg # unstable.youtube-dl
+    _3llo
   ];
   
   environment.shellAliases = {
@@ -44,7 +51,7 @@ in {
     ns = "nix-shell";
     n = ''echo "if you launch that more than 2 times then you need add it to systemPackages" && nix-shell -p'';
     sse = "cd /etc/nixos/ && sudo su";
-    sw = "sudo nixos-rebuild switch";
+    sw = "sudo nixos-rebuild switch -v";
     ru = "sudo su";
   # st = "cd /nix/store/";
 
@@ -67,6 +74,7 @@ in {
     #"displayoff" = "sudo sh -c 'sleep 1; xrandr --output LVDS-1 --off; read ans; xrandr --output LVDS-1 --auto'";
 
     "yt-audio" = ''youtube-dl -i --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'';
+    "3llo" = ''TRELLO_USER="${secret.trelloUser}" TRELLO_KEY="${secret.trelloKey}" TRELLO_TOKEN="${secret.trelloToken}" 3llo'';
   };
 
   programs.zsh = {
