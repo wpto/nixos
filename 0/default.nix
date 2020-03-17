@@ -15,12 +15,6 @@ rec {
 
 
   networking.hostName = "pinky";
-  networking.wireless.enable = true;
- 
-  networking.useDHCP = false;
-  networking.interfaces.enp2s0.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
-  
   hardware.opengl.driSupport32Bit = true;
 
   system.stateVersion = "19.09";

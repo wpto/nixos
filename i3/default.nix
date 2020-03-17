@@ -10,7 +10,7 @@ let
   gradientEnd   = "#403d55";
   gradientType  = "Vertical";
 
-  gimpConfig = pkgs.writeText "gimp-config" (import ../gimp-config.nix {});
+  # gimpConfig = pkgs.writeText "gimp-config" (import ../gimp-config.nix {});
   #launchTerminal = ''exec ${st}/bin/st -f "${fontName}:size=${toStr (fontSize / 4 * 3)}"'';
   launchTerminal = "exec ${st}/bin/st";
   # ##????  terminus:size=8 and Terminus 12px are the same font ... ?-?
@@ -33,7 +33,7 @@ let
     w = w "qbittorrent";
     e = w "lxrandr";
     r = w "qutebrowser";
-    t = "${(w "gimp")} --system-gimprc ${gimpConfig}";
+    # t = "${(w "gimp")} --system-gimprc ${gimpConfig}";
 
     a = "focus parent";
     s = w "scrot";
@@ -135,6 +135,7 @@ let
     client.unfocused #000000 #000000 #000000 #000000 #000000
     client.urgent #000000 #000000 #000000 #000000 #000000
 
+    focus_follows_mouse no
   '' +
 
   import ./other.nix { inherit pkgs config; };

@@ -8,32 +8,12 @@ general {
 
 
 order += "volume master"
-order += "1pv6"
 order += "disk /"
 order += "disk /home"
-order += "run_watch DHCP"
-order += "wireless wlp3s0"
-order += "ethernet eth0"
 order += "cpu_temperature 0"
 order += "memory"
 order += "load"
 order += "tztime local"
-
-wireless wlp3s0 {
-  format_up = "W: (%quality at %essid, %bitrate) %ip"
-  format_down = "W"
-}
-
-ethernet eth0 {
-  format_up = "E: %ip (%speed)"
-  format_down = "E"
-}
-
-run_watch DHCP {
-  pidfile = "/var/run/dhcpcd*.pid"
-  format = "D"
-  format_down = "D"
-}
 
 tztime local {
   format = "%Y-%m-%d %H:%M:%S"

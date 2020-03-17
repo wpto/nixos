@@ -13,7 +13,7 @@ in {
     allowUnfree = true;
     packageOverrides = pkgs: {
      # unstable = import unstableTarball { config = config.nixpkgs.config;};
-     st = import ../shared/st { inherit pkgs; };
+     #st = import ../shared/st { inherit pkgs; };
     };
   };
 
@@ -68,7 +68,7 @@ in {
     pl = "cd ~/pl";
     pj = "cd ~/pj";
 
-    bsy = "browser-sync start --server --files '*'";
+    bsy = ''browser-sync start --server --files './**' '';
     qui = "cd ~/quick/notes/";
     "display-off" = "sudo sh -c 'sleep 3; xset -display :0.0 dpms force off; read ans; xset -display :0.0 dpms force on'";
     #"displayoff" = "sudo sh -c 'sleep 1; xrandr --output LVDS-1 --off; read ans; xrandr --output LVDS-1 --auto'";

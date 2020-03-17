@@ -6,7 +6,7 @@
     
     ../shared/tor
     ./xserver.nix
-    ../shared/i3
+    ../i3
     ./environment.nix
     ./zsh.nix
     ../shared/emacs

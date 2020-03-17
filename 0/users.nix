@@ -13,7 +13,7 @@
     isNormalUser = true;
     password = "";
     uid = 1000;
-    extraGroups = [ "vboxusers" ];
+    extraGroups = [ "vboxusers" "networkmanager" ];
     useDefaultShell = true;
     packages = [] ++ (import ../pkgs {inherit pkgs;});
   };
