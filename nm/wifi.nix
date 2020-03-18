@@ -1,3 +1,6 @@
+$$$ NOT USED $$$
+
+
 { config, lib, pkgs, ... } :
 {
 
@@ -6,17 +9,6 @@
   };
 
   networking = {
-    useDHCP = false;
-
-    interfaces.enp2s0.useDHCP = true;
-    interfaces.wlp3s0.useDHCP = true;
-
-    networkmanager.enable = true;
-    networkmanager.packages = [
-      pkgs.rpPPPoE
-      pkgs.networkmanager_dmenu 
-    ];
-
     wireless = {
       enable = false;
       networks = {
@@ -27,5 +19,10 @@
         "wow wifi".psk = "12345679";
     };
   };
+  };
+
+  environment.etc."pppoe" = {
+    target = "NetworkManager/system-connections/dsl.nmconnection";
+    text = pkgs.writeText 'pppoe-config' import
   };
 }
