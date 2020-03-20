@@ -1,18 +1,14 @@
 { config, pkgs, ... }:
 let
-  enableUnstable = false;
-  #unstableTarball = if enableUnstable then 
-  #  (fetchTarball
-  #    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz)
-  #else
-  # '';
+  unstableTarball = (fetchTarball
+      https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz);
     
   secret = import ../secret.nix;
 in {
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
-     # unstable = import unstableTarball { config = config.nixpkgs.config;};
+      unstable = import unstableTarball { config = config.nixpkgs.config;};
      #st = import ../shared/st { inherit pkgs; };
     };
   };
@@ -21,11 +17,11 @@ in {
 
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
-    git vim wget zathura # unstable.ppsspp
+    git vim wget zathura
     nodejs nodePackages.nodemon nodePackages.coffee-script nodePackages.prettier
-    sublime3 unzip ffmpeg # unstable.youtube-dl
+    sublime3 unzip ffmpeg
     _3llo
-  ];
+  ] ++ (with unstable; [ppsspp youtube-dl]);
   
   environment.shellAliases = {
     rmdir = "rm -rf";

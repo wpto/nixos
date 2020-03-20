@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
-''
+pkgs.writeText "i3status-config" ''
 general {
-  output_format = "i3bar"
   colors = true
   interval = 5
 }

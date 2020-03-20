@@ -126,8 +126,8 @@ let
     in pkgs.lib.concatStringsSep "\n" (map generateBinding cc)}
 
     bar {
-      status_command i3status --config ${pkgs.writeText "i3-status-config" (import ./i3-status-config.nix {inherit config pkgs;})}
-      position top
+      status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
+      position bottom 
     }
 
     client.focused  ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor}
