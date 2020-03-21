@@ -15,34 +15,31 @@ let
   purple = "#F92672";
   green = "#A6E22E";
 
-  nmcli-checker = pkgs.writeShellScript "wifi-script" ''
-    TYPE=$type
-    OUT=$(${nmcli} device | ${egrep} "\s$TYPE\s")
-    INTERFACE=$(echo $OUT | ${awk} '{print $1}' | ${trim})
-    CONNECTION=$(echo $OUT | ${awk} '{$1=$2=$3=""; print $0}' | ${trim})
-
-    if [ $CONNECTION = "--" ]
-    then
-      printf '{"full_text":"%s","color":"%s"}' $INTERFACE "${purple}"
-    else
-      printf '{"full_text":"%s","color":"%s"}' $CONNECTION "${green}"
-    fi
+  nmcli-script = pkgs.writeShellScript "nmcli-script" ''
+    CONNECTION=$(${nmcli} device | ${egrep} '\sconnected\s' | ${awk} '{$1=$2=$3=""; print $0}' | ${trim})
+    echo $CONNECTION
+    echo $CONNECTION
+    echo "${green}"
+    exit 0
   '';
 in
+#    [ethernet]
+#    type=ethernet
+#    command=${nmcli-checker}
+#    interval=5
+#    format=json
+
+#    [wifi]
+#    type=wifi
+#    command=${nmcli-checker}
+#    interval=5
+#    format=json
+
 pkgs.writeShellScript "i3blocks-script" ''
   ${i3blocks} -c ${pkgs.writeText "i3blocks-config" ''
-
-    [ethernet]
-    type=ethernet
-    command=${nmcli-checker}
-    interval=5
-    format=json
-
-    [wifi]
-    type=wifi
-    command=${nmcli-checker}
-    interval=5
-    format=json
+    [nmcli]
+    interval=10
+    command=${nmcli-script}
 
     [time]
     command=date "+%A %F %T"

@@ -4,6 +4,7 @@ rec {
     [
       ./hardware-configuration.nix
       ../nm/pppoe-dmsd.nix
+      ../nm/wifi.nix
       #./ap.nix
       ./imports.nix
     ];
@@ -19,11 +20,8 @@ rec {
   networking.useDHCP = false;
 
   networking.interfaces.enp2s0.useDHCP = true;
-  # networking.interfaces.wlp3s0.useDHCP = true;
+  networking.interfaces.wlp3s0.useDHCP = true;
 
-  networking.interfaces.wlp3s0.ipv4.addresses = [
-    { address = "10.0.0.1"; prefixLength = 24; }
-  ];
   networking.networkmanager.enable = true;
   networking.networkmanager.packages = [ pkgs.rpPPPoE pkgs.dnsmasq];
 

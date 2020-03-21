@@ -128,6 +128,14 @@ let
     bar {
       status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
       position bottom 
+
+      colors {
+        background #000000
+        focused_workspace ${highlightColor} #000000 #FFFFFF
+        active_workspace #000000 #000000 #FFFFFF
+        inactive_workspace #000000 #000000 #FFFFFF
+        urgent_workspace ${highlightColor} #000000 #FFFFFF
+      }
     }
 
     client.focused  ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor}
@@ -136,6 +144,9 @@ let
     client.urgent #000000 #000000 #000000 #000000 #000000
 
     focus_follows_mouse no
+
+    # exec_always --no-startup-id "${pkgs.mpd}/bin/mpd ${import ./mpd.nix {inherit config pkgs;}}"
+
   '' +
 
   import ./other.nix { inherit pkgs config; };
