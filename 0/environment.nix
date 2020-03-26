@@ -42,6 +42,9 @@ in {
     gg = "ga . && gc";
     gd = "git stash save --keep-index && git stash drop";
     gpu = "git push -u origin master";
+    gf = "git fetch";
+    gp = "git pull";
+    gpp = "gf && gp";
 
     nb = "nix-build";
     ns = "nix-shell";
@@ -71,7 +74,10 @@ in {
 
     "yt-audio" = ''youtube-dl -i --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'';
     "3llo" = ''TRELLO_USER="${secret.trelloUser}" TRELLO_KEY="${secret.trelloKey}" TRELLO_TOKEN="${secret.trelloToken}" 3llo'';
+
+    "vlc" = "${pkgs.vlc}/bin/vlc --qt-minimal-view --fullscreen";
   };
+
 
   programs.zsh = {
     enable = true;

@@ -24,6 +24,9 @@ rec {
 
   networking.networkmanager.enable = true;
   networking.networkmanager.packages = [ pkgs.rpPPPoE pkgs.dnsmasq];
+  networking.firewall.allowedTCPPorts = [8080];
+  networking.firewall.allowedUDPPorts = [9777 1900];
+  
 
   hardware.opengl.driSupport32Bit = true;
 
