@@ -12,7 +12,7 @@ let
   fontPango = "${fontName} ${toStr fontSize}px";
   
   # highlightColor = "#FD971F"; # monokai.. love it
-  highlightColor = "#AE81FF";
+  highlightColor = "#1d2021";
 
   
 
@@ -71,7 +71,7 @@ let
 
       colors {
         background #000000
-        focused_workspace ${highlightColor} #000000 #FFFFFF
+        focused_workspace ${highlightColor} ${highlightColor} #000000
         active_workspace #000000 #000000 #FFFFFF
         inactive_workspace #000000 #000000 #FFFFFF
         urgent_workspace ${highlightColor} #000000 #FFFFFF
