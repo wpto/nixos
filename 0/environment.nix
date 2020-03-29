@@ -18,7 +18,7 @@ in {
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
     git vim wget zathura
-    nodejs nodePackages.nodemon nodePackages.coffee-script nodePackages.prettier
+    nodejs nodePackages.nodemon nodePackages.prettier
     sublime3 unzip ffmpeg
     _3llo
   ] ++ (with unstable; [ppsspp youtube-dl]);
@@ -54,7 +54,7 @@ in {
     ru = "sudo su";
   # st = "cd /nix/store/";
 
-    gulp = "gulp --require coffeescript/register";
+    gulp = "./node_modules/.bin/gulp --require coffeescript/register";
 
     q = "exit";
     h = "history";
@@ -67,7 +67,7 @@ in {
     pl = "cd ~/pl";
     pj = "cd ~/pj";
 
-    bsy = ''browser-sync start --server --files './**' '';
+    bsy = ''./node_modules/.bin/browser-sync start --server --files './**' '';
     qui = "cd ~/quick/notes/";
     "display-off" = "sudo sh -c 'sleep 3; xset -display :0.0 dpms force off; read ans; xset -display :0.0 dpms force on'";
     #"displayoff" = "sudo sh -c 'sleep 1; xrandr --output LVDS-1 --off; read ans; xrandr --output LVDS-1 --auto'";

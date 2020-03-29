@@ -15,7 +15,6 @@
     uid = 1000;
     extraGroups = [ "vboxusers" "networkmanager" ];
     useDefaultShell = true;
-    packages = [] ++ (import ../pkgs {inherit pkgs;});
   };
  
   security.sudo = {

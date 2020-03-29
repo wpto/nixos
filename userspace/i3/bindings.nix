@@ -20,7 +20,7 @@ in
     a = "focus parent";
     s = exe "scrot";
     d = "exec ${pkgs.writeShellScript "dmenu-environment" ''
-      nix-shell "/etc/nixos/myshells/$(ls /etc/nixos/myshells | dmenu)"
+      nix-shell "/etc/nixos/userspace/myshells/$(ls /etc/nixos/userspace/myshells | dmenu)"
     ''}";   
     f = "fullscreen toggle";
     g = ''${launchInTerminal} -e "${pkgs.htop}/bin/htop"'';
