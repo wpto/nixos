@@ -37,10 +37,12 @@ in
     o = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute   @DEFAULT_SINK@ toggle";
     # p = w "atom";
     
-    h = "focus left";
-    j = "focus down";
-    k = "focus up";
-    l = "focus right";
+    # h = "focus left";
+    # j = "focus down";
+    # k = "focus up";
+    # l = "focus right";
+
+    j = exe "i3-easyfocus";
     # semicolon = "exec sudo ${subl} /etc/nixos/"; 
 
     #n = exec ppsspp;

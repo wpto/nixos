@@ -47,7 +47,7 @@ let
     font pango: ${fontPango}
  
     floating_modifier ${mod}
-    for_window [class=".*"] border pixel 3
+    # for_window [class=".*"] border pixel 3
     
     # workspaces
     ${pkgs.lib.concatStringsSep "\n" (map generateWorkspace (builtins.genList (x: x+1) 9))}
@@ -69,19 +69,19 @@ let
       status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
       position bottom 
 
-      colors {
-        background #000000
-        focused_workspace ${highlightColor} ${highlightColor} #000000
-        active_workspace #000000 #000000 #FFFFFF
-        inactive_workspace #000000 #000000 #FFFFFF
-        urgent_workspace ${highlightColor} #000000 #FFFFFF
-      }
+    #  colors {
+    #    background #000000
+    #    focused_workspace ${highlightColor} ${highlightColor} #000000
+    #    active_workspace #000000 #000000 #FFFFFF
+    #    inactive_workspace #000000 #000000 #FFFFFF
+    #    urgent_workspace ${highlightColor} #000000 #FFFFFF
+    #  }
     }
 
-    client.focused  ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor}
-    client.focused_inactive #000000 #000000 #000000 #000000 #000000
-    client.unfocused #000000 #000000 #000000 #000000 #000000
-    client.urgent #000000 #000000 #000000 #000000 #000000
+    #client.focused  ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor} ${highlightColor}
+    #client.focused_inactive #000000 #000000 #000000 #000000 #000000
+    #client.unfocused #000000 #000000 #000000 #000000 #000000
+    #client.urgent #000000 #000000 #000000 #000000 #000000
 
     focus_follows_mouse no
 
