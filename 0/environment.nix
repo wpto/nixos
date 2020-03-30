@@ -18,8 +18,9 @@ in {
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
     git vim wget zathura
-    nodejs nodePackages.nodemon nodePackages.prettier
+    nodejs
     sublime3 unzip ffmpeg
+    steam
     _3llo
   ] ++ (with unstable; [ppsspp youtube-dl]);
   
@@ -54,7 +55,6 @@ in {
     ru = "sudo su";
   # st = "cd /nix/store/";
 
-    gulp = "./node_modules/.bin/gulp --require coffeescript/register";
 
     q = "exit";
     h = "history";
@@ -64,10 +64,7 @@ in {
     "c3" = "cd ../../..";
     "c4" = "cd ../../../..";
 
-    pl = "cd ~/pl";
-    pj = "cd ~/pj";
 
-    bsy = ''./node_modules/.bin/browser-sync start --server --files './**' '';
     qui = "cd ~/quick/notes/";
     "display-off" = "sudo sh -c 'sleep 3; xset -display :0.0 dpms force off; read ans; xset -display :0.0 dpms force on'";
     #"displayoff" = "sudo sh -c 'sleep 1; xrandr --output LVDS-1 --off; read ans; xrandr --output LVDS-1 --auto'";
@@ -76,6 +73,17 @@ in {
     "3llo" = ''TRELLO_USER="${secret.trelloUser}" TRELLO_KEY="${secret.trelloKey}" TRELLO_TOKEN="${secret.trelloToken}" 3llo'';
 
     "vlc" = "${pkgs.vlc}/bin/vlc --qt-minimal-view --fullscreen";
+    "dl" = "cd ~/Downloads";
+    "pl" = "cd ~/Playground";
+
+    # node specific stuff - TODO: fix repeated strings
+    bsy = ''./node_modules/.bin/browser-sync start --server --files './**' '';
+    gulp = "./node_modules/.bin/gulp --require coffeescript/register";
+    coffee = "./node_modules/.bin/coffee";
+    cake = "./node_modules/.bin/cake";
+    prettier = "./node_modules/.bin/prettier";
+    nodemon = "./node_modules/.bin/nodemon";
+
   };
 
 

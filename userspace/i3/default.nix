@@ -87,6 +87,10 @@ let
 
     # exec_always --no-startup-id "${pkgs.mpd}/bin/mpd ${import ./mpd.nix {inherit config pkgs;}}"
 
+    exec --no-startup-id i3-msg 'workspace 10; ${pkgs.qbittorrent}/bin/qbittorrent; workspace 1'
+    
+
+
   '' +
 
   import ./other.nix { inherit pkgs config; };

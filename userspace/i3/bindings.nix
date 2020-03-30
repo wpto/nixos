@@ -15,7 +15,7 @@ in
     w = exe "qbittorrent";
     e = exe "lxrandr";
     r = exe "qutebrowser";
-    #t = exe "gimp";
+    t = "layout tabbed";
 
     a = "focus parent";
     s = exe "scrot";
