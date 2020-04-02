@@ -3,8 +3,7 @@ rec {
   imports =
     [
       ./hardware-configuration.nix
-      ../nm/pppoe-dmsd.nix
-      ../nm/wifi.nix
+      ../system/nm/wifi.nix
       #./ap.nix
       ./imports.nix
     ];

@@ -4,12 +4,11 @@
     ./users.nix
     ./other.nix
     
-    ../shared/tor
+    ../system/tor
     ./xserver.nix
-    ../userspace/i3
+    ../user/i3
     ./environment.nix
     ./zsh.nix
-    ../shared/emacs
     ./nginx-file-server.nix
   ];
 

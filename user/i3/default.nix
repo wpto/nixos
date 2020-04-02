@@ -66,7 +66,8 @@ let
     in pkgs.lib.concatStringsSep "\n" (map generateBinding cc)}
 
     bar {
-      status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
+      # status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
+      status_command i3status -c ${import ./i3status-config.nix {inherit config pkgs;}} 
       position bottom 
 
     #  colors {
