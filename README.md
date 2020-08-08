@@ -8,3 +8,5 @@
         ./folder
       ];
     } 
+
+## nixos-generate-config --show-hardware-config >> /etc/nixos/folder/hardware.nix
