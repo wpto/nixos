@@ -22,6 +22,7 @@ in {
     sublime3 unzip ffmpeg
     steam
     _3llo
+    entr
   ] ++ (with unstable; [ppsspp youtube-dl]);
   
   environment.shellAliases = {
@@ -83,6 +84,8 @@ in {
     cake = "./node_modules/.bin/cake";
     prettier = "./node_modules/.bin/prettier";
     nodemon = "./node_modules/.bin/nodemon";
+
+    node-watch = ''find ./ -not -path './node_modules/*' -not -path './.git/*' | entr sh -c '';
 
   };
 
