@@ -3,7 +3,7 @@
 let 
   mod = "Mod4";
   st = import ../st { inherit pkgs; };
-  launchInTerminal = "exec ${st}/bin/st";
+  launchInTerminal = "exec ${st}/bin/st -f Terminus";
 
 
   exe  = p: "exec ${builtins.getAttr p pkgs}/bin/${p}"; 
@@ -35,7 +35,7 @@ in
     u = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +1%";
     i = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -1%";
     o = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute   @DEFAULT_SINK@ toggle";
-    # p = w "atom";
+    p = exe "firefox";
     
     h = "focus left";
     j = "focus down";

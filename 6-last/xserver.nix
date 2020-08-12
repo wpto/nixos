@@ -10,8 +10,7 @@ in {
     enable = true;
     layout = "us,ru";
     xkbOptions = "grp:win_space_toggle,grp_led:scroll,caps:swapescape,keypad:pointerkeys";
- #   videoDrivers = [ "intel" ];
-    
+    videoDrivers = [ "nvidia" ];
     desktopManager.xterm.enable = false;
 
     displayManager.auto = {
@@ -25,9 +24,9 @@ in {
 
   };
 
- #  services.compton = {
- #   enable = true;
-    # backend = "glx";
- #   vSync = true;
- # };
+  services.compton = {
+    enable = true;
+    backend = "glx";
+    vSync = true;
+  };
 }

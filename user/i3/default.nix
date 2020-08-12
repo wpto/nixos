@@ -68,7 +68,7 @@ let
     bar {
       # status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
       status_command i3status -c ${import ./i3status-config.nix {inherit config pkgs;}} 
-      position bottom 
+      position top 
 
     #  colors {
     #    background #000000

@@ -20,7 +20,7 @@ rec {
   networking.useDHCP = false;
 
   networking.interfaces.enp2s0.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
+  # networking.interfaces.wlp3s0.useDHCP = true;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.packages = [ pkgs.rpPPPoE pkgs.dnsmasq];
