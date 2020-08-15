@@ -11,6 +11,7 @@
     ./zsh.nix
     ./nginx-file-server.nix
     ../system/i18n
+    ../system/flatpak
   ];
 
   nixpkgs.config.allowUnfree = true;
