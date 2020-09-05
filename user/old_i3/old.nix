@@ -41,7 +41,7 @@ let
          in [(hf ha)] ++ zipWithA tf ta;
 
   configFile = ''
-    font: -xos4-terminus-*-*-*-*-*-*-*-*-*-*-iso10646-*
+    #font: -xos4-terminus-*-*-*-*-*-*-*-*-*-*-iso10646-*
 
     exec ${pkgs.xorg.xmodmap}/bin/xmodmap -e "keycode 104 = Return"
     exec --no-startup-id '${pkgs.fluxbox}/bin/fbsetroot -display :0 -gradient "Vertical" -from "#b4cbdd" -to "#403d55"'
@@ -83,7 +83,8 @@ let
 
     bar {
       # status_command ${import ./i3blocks.nix {inherit config pkgs;}} 
-      status_command i3status -c ${import ./i3status-config.nix {inherit config pkgs;}} 
+      # status_command i3status -c ${import ./i3status-config.nix {inherit config pkgs;}} 
+      status_command i3status
       position top 
     }
 

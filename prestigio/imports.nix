@@ -1,15 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [
-    ../system/users.nix
-    ../system/other.nix
-
-    ../system/tor
-    ../system/fonts.nix
-    ../system/compton.nix
-
-    ../system/environment.nix
-    ./touchpad.nix
-  ];
+  imports = [ ./other.nix ./nginx-file-server.nix];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -33,5 +23,11 @@
       enable = true;
       configFile = /etc/nixos/config/i3;
     };
+  };
+
+  services.compton = {
+    enable = true;
+    backend = "glx";
+    vSync = true;
   };
 }

@@ -1,10 +1,83 @@
 { config, pkgs, ... }:
-
-  #unstableTarball = (fetchTarball
-#      https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz);
-    
-  #secret = import ../secret.nix;
 {
+  users = {
+    mutableUsers = false;
+    defaultUserShell = pkgs.zsh;
+
+    extraUsers.root.password = "";
+    extraUsers.ki = {
+      isNormalUser = true;
+      password = "";
+      uid = 1000;
+      extraGroups = [ "vboxusers" "networkmanager" ];
+      useDefaultShell = true;
+    };
+  };
+
+ 
+  security.sudo = {
+    enable = true;
+    extraRules = [{
+      groups = [ "users" ];
+      commands = [{ command = "ALL"; options = [ "NOPASSWD" ]; }];
+    }];
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 8001 8999 3000 3001 ];
+    allowedTCPPortRanges = [{ from = 6881; to = 6889; }];
+  };
+
+  time.timeZone = "Europe/Moscow";
+
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.daemon.config = {
+    resample-method = "src-sinc-best-quality";
+    default-sample-format = "float32le";
+  };
+
+  services.tor = let
+    serverAddress = "127.0.0.1:9050";
+    fasterServerAddress = "127.0.0.1:9063";
+  in {
+    enable = true;
+    client.enable = true;
+    client.privoxy.enable = true;
+    torsocks.enable = true;    
+    torsocks.server = serverAddress;
+    torsocks.fasterServer = fasterServerAddress;
+  }; 
+
+  fonts = {
+    fonts = with pkgs; [
+      freefont_ttf
+      liberation_ttf
+      noto-fonts-emoji
+      source-han-sans-japanese
+      source-han-serif-japanese
+      terminus_font
+      terminus_font_ttf
+      tewi-font
+      liberation_ttf
+      # ubuntu_font_family
+    ];
+
+    fontconfig = {
+      enable = true;
+      allowBitmaps = true;
+      defaultFonts = {
+        sansSerif = [ "FreeSans" "Source Han Sans JP" ];
+        serif = [ "FreeSerif" "Source Han Serif JP" ];
+        monospace = [ "Terminus" "Liberation Mono" ]; # "Ubuntu Mono"];
+        emoji = [ "Noto Color Emoji" ];
+      };
+    };
+    
+    enableDefaultFonts = false;
+  };
+
   nixpkgs.config = {
     allowUnfree = true;
     #packageOverrides = pkgs: {
@@ -50,7 +123,7 @@
 
     nb = "nix-build";
     ns = "nix-shell";
-    n = ''echo "if you launch that more than 2 times then you need add it to systemPackages" && nix-shell -p'';
+    #n = ''echo "if you launch that more than 2 times then you need add it to systemPackages" && nix-shell -p'';
     sse = "cd /etc/nixos/ && sudo su";
     sw = "sudo nixos-rebuild switch -v";
     ru = "sudo su";
@@ -95,10 +168,22 @@
     enableCompletion = true;
     enableGlobalCompInit = true;
     autosuggestions.enable = true;
-    
   };
   
   environment.shellInit = ''
 
   '';
+
+  services.xserver.libinput = {
+    enable = true;
+  };
+
+  console.font = "Lat2-Terminus16";
+ # console.keyMap = "us";
+  console.useXkbConfig = true;
+
+  i18n.inputMethod = {
+    enabled = "fcitx";
+    fcitx.engines = with pkgs.fcitx-engines; [ mozc m17n ];
+  };
 }

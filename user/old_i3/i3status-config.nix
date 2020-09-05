@@ -11,6 +11,7 @@ order += "disk /"
 order += "disk /home"
 order += "cpu_temperature 0"
 order += "memory"
+order += "battery 0"
 order += "load"
 order += "tztime local"
 
@@ -22,9 +23,19 @@ load {
   format = "L: %1min %5min %15min"
 }
 
+battery 0 {
+	format = "%status %percentage %remaining %emptytime"
+        format_down = "No battery"
+        status_chr = "⚇ CHR"
+        status_bat = "⚡ BAT"
+        status_full = "☻ FULL"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+}
+
 cpu_temperature 0 {
   format = "T: %degrees °C"
-  path = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp1_input"
+  path = "/sys/devices/platform/coretemp.0/temp1_input"
 }
 
 memory {
