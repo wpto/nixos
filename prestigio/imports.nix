@@ -2,6 +2,12 @@
   imports = [ ./other.nix ./nginx-file-server.nix];
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.packageOverride = pkgs: {
+    st = import ../user/st/default.nix { inherit pkgs; };
+  };
+  # nixpkgs.config.packageOverride = pkgs: {
+  #  dwm = import ../user/dwm/default.nix { inherit pkgs; };
+  # };
 
   services.xserver = {
     enable = true;

@@ -1,43 +1,48 @@
 set $mod Mod4
 
-exec --no-startup-id nix-shell -p xorg.xmodmap --run xmodmap -e "keycode 104 = Return"
-exec --no-startup-id nix-shell -p fluxbox --run fbsetroot -display :0 -gradient "Vertical" -from "#b4cbdd" -to "#403d55"
+font pango: Terminus 11px
 
-exec --no-startup-id nix-shell -p networkmanagerapplet --run nm-applet
+exec --no-startup-id xmodmap -e "keycode 104 = Return"
+exec --no-startup-id fbsetroot -display :0 -solid "#000000"
+
+exec --no-startup-id nm-applet
  
 floating_modifier $mod
 for_window [class=".*"] border pixel 1
 focus_follows_mouse no
 
-bindsym $mod+F1 exec --no-startup-id nix-shell -p pulseaudio --run pactl set-sink-mute   @DEFAULT_SINK@ toggle
-bindsym $mod+F2 exec --no-startup-id nix-shell -p pulseaudio --run pactl set-sink-volume @DEFAULT_SINK@ -3%";
-bindsym $mod+F3 exec --no-startup-id nix-shell -p pulseaudio --run pactl set-sink-volume @DEFAULT_SINK@ +3%";
+bindsym $mod+F1 exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
+bindsym $mod+F2 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3%";
+bindsym $mod+F3 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +3%";
+
+bindsym $mod+F9 exec --no-startup-id  xbacklight -dec 5
+bindsym $mod+F10 exec --no-startup-id xbacklight -inc 5
 
 bindsym $mod+q kill
-bindsym $mod+w exec nix-shell -p qbittorrent --run qbittorrent
-bindsym $mod+e exec nix-shell -p lxrandr --run lxrandr
-bindsym $mod+r exec nix-shell -p qutebrowser --run qutebrowser
-bindsym $mod+t layout tabbed
+bindsym $mod+w exec qutebrowser
+bindsym $mod+e exec lxrandr
+bindsym $mod+r exec qbittorrent
+bindsym $mod+t exec pavucontrol
 
-# bindsym a focus parent
-bindsym $mod+s exec nix-shell -p scrot --run scrot
-# bindsym a " # dmenu
+bindsym $mod+a exec anki
+bindsym $mod+s exec scrot
+#bindsym $mod+d exec
 bindsym $mod+f fullscreen
-bindsym $mod+g exec nix-shell -p htop --run htop
+bindsym $mod+g exec st -e htop
 
 bindsym $mod+z focus mode_toggle
 bindsym $mod+x floating toggle
-bindsym $mod+c split h
-bindsym $mod+v split v
-bindsym $mod+b layout toggle split
+bindsym $mod+c split horizontal
+bindsym $mod+v split vertical
+bindsym $mod+b exec audacious
 
-bindsym $mod+p exec nix-shell -p firefox --run firefox
+bindsym $mod+p exec firefox
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-bindsym $mod+semicolon nix-shell -p i3-easyfocus --run i3-easyfocus
+bindsym $mod+semicolon exec i3-easyfocus
 
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
@@ -46,8 +51,8 @@ bindsym $mod+Shift+l move right
 
 bindsym $mod+Shift+r restart
 
-bindsym $mod+Return exec nix-shell -p lxterminal --run lxterminal
-bindsym $mod+KP_Enter exec nix-shell -p lxterminal --run  lxterminal
+bindsym $mod+Return exec st
+bindsym $mod+KP_Enter exec st
 
 bar {
 	status_command i3status
@@ -56,9 +61,9 @@ bar {
 
 client.background #000000
 
-client.focused #FD971F #FD971F #FD971F #FD971F #FD971F
-client.focused_active #000000 #000000 #000000 #000000 #000000
-client.unfocused #000000 #000000 #000000 #000000 #000000
+#client.focused #FD971F #FD971F #FD971F #FD971F #FD971F
+#client.focused_active #000000 #000000 #000000 #000000 #000000
+#client.unfocused #000000 #000000 #000000 #000000 #000000
 
 set $ws1 "1"
 set $ws2 "2"

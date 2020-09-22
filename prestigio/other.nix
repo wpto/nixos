@@ -1,5 +1,17 @@
 { config, pkgs, ... }:
+let
+  unstableTarball = fetchTarball
+    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+in
 {
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    unstable = import unstableTarball {
+      config = config.nixpkgs.config;
+    };
+  };
+  
+
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.zsh;
@@ -57,8 +69,7 @@
       noto-fonts-emoji
       source-han-sans-japanese
       source-han-serif-japanese
-      terminus_font
-      terminus_font_ttf
+      #unstable.terminus_font
       tewi-font
       liberation_ttf
       # ubuntu_font_family
@@ -96,6 +107,20 @@
     steam
     #_3llo
     entr
+    (import ../user/st/default.nix { inherit pkgs; })
+    xorg.xmodmap
+    fluxbox
+    networkmanagerapplet
+    pulseaudio
+    qbittorrent
+    lxrandr
+    qutebrowser
+    scrot
+    htop
+    firefox
+    i3-easyfocus
+    xorg.xbacklight
+    
   ];# ++ (with unstable; [ppsspp youtube-dl]);
   
   environment.shellAliases = {

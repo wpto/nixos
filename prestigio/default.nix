@@ -8,6 +8,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernel.sysctl."net.ipv4.ip_default_ttl" = 65;
+  hardware.opengl.driSupport32Bit = true;
 
   networking = {
     wireless = {
