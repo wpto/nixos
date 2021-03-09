@@ -37,8 +37,9 @@ in
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 8001 8999 3000 3001 ];
+    allowedTCPPorts = [ 8001 8999 3000 3001 8080 1084 1308 1131 9090 ];
     allowedTCPPortRanges = [{ from = 6881; to = 6889; }];
+    allowedUDPPorts = [ 1900 9777 12374 ];
   };
 
   time.timeZone = "Europe/Moscow";

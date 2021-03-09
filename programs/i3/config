@@ -14,6 +14,10 @@ focus_follows_mouse no
 bindsym $mod+F1 exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
 bindsym $mod+F2 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3%";
 bindsym $mod+F3 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +3%";
+bindsym $mod+F4 exec --no-startup-id xdg-open 'http://127.0.0.1:8384' # syncthing web
+
+bindsym $mod+F6 exec --no-startup-id xrandr --output eDP1 --filter nearest --scale 0.5x0.5
+bindsym $mod+F7 exec --no-startup-id xrandr --output eDP1 --transform none
 
 bindsym $mod+F9 exec --no-startup-id  xbacklight -dec 5
 bindsym $mod+F10 exec --no-startup-id xbacklight -inc 5

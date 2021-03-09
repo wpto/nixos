@@ -1,0 +1,468 @@
+diff --git a/configure.ac b/configure.ac
+index dcf7c10..95cc1f6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -39,7 +39,7 @@ XORG_DEFAULT_OPTIONS
+ AC_CHECK_LIB(m,floor)
+ 
+ # Checks for pkg-config packages
+-PKG_CHECK_MODULES(XRANDR, xrandr >= 1.5 xrender x11 xproto >= 7.0.17)
++PKG_CHECK_MODULES(XRANDR, xrandr >= 1.5 xrender x11 xproto >= 7.0.17 pixman-1)
+ 
+ AC_CONFIG_FILES([
+ 	Makefile
+diff --git a/xrandr.c b/xrandr.c
+index dcfdde0..5c3a326 100644
+--- a/xrandr.c
++++ b/xrandr.c
+@@ -40,6 +40,7 @@
+ #include <inttypes.h>
+ #include <stdarg.h>
+ #include <math.h>
++#include <pixman.h>
+ 
+ #ifdef HAVE_CONFIG_H
+ #include "config.h"
+@@ -135,6 +136,7 @@ usage(void)
+            "      --scale <x>x<y>\n"
+            "      --scale-from <w>x<h>\n"
+            "      --transform <a>,<b>,<c>,<d>,<e>,<f>,<g>,<h>,<i>\n"
++           "      --filter auto,bilinear,nearest\n"
+            "      --off\n"
+            "      --crtc <crtc>\n"
+            "      --panning <w>x<h>[+<x>+<y>[/<track:w>x<h>+<x>+<y>[/<border:l>/<t>/<r>/<b>]]]\n"
+@@ -285,6 +287,7 @@ typedef enum _changes {
+     changes_panning = (1 << 10),
+     changes_gamma = (1 << 11),
+     changes_primary = (1 << 12),
++    changes_filter = (1 << 13),
+ } changes_t;
+ 
+ typedef enum _name_kind {
+@@ -305,19 +308,24 @@ typedef struct {
+ typedef struct _crtc crtc_t;
+ typedef struct _output	output_t;
+ typedef struct _transform transform_t;
++typedef struct _filter filter_t;
+ typedef struct _umode	umode_t;
+ typedef struct _output_prop output_prop_t;
+ typedef struct _provider provider_t;
+ typedef struct _monitors monitors_t;
+ typedef struct _umonitor umonitor_t;
+ 
+-struct _transform {
+-    XTransform	    transform;
++struct _filter {
+     const char	    *filter;
+     int		    nparams;
+     XFixed	    *params;
+ };
+ 
++
++struct _transform {
++    XTransform	    transform;
++};
++
+ struct _crtc {
+     name_t	    crtc;
+     Bool	    changing;
+@@ -331,6 +339,7 @@ struct _crtc {
+     output_t	    **outputs;
+     int		    noutput;
+     transform_t	    current_transform, pending_transform;
++    filter_t        current_filter, pending_filter;
+ };
+ 
+ struct _output_prop {
+@@ -370,6 +379,7 @@ struct _output {
+     Bool    	    automatic;
+     int     	    scale_from_w, scale_from_h;
+     transform_t	    transform;
++    filter_t        filter;
+ 
+     struct {
+ 	float red;
+@@ -707,19 +717,29 @@ init_transform (transform_t *transform)
+     memset (&transform->transform, '\0', sizeof (transform->transform));
+     for (x = 0; x < 3; x++)
+ 	transform->transform.matrix[x][x] = XDoubleToFixed (1.0);
+-    transform->filter = "";
+-    transform->nparams = 0;
+-    transform->params = NULL;
++}
++
++static void
++init_filter (filter_t *filter)
++{
++    filter->filter = "";
++    filter->nparams = 0;
++    filter->params = NULL;
+ }
+ 
+ static void
+ set_transform (transform_t  *dest,
+-	       XTransform   *transform,
+-	       const char   *filter,
+-	       XFixed	    *params,
+-	       int	    nparams)
++	       XTransform   *transform)
+ {
+     dest->transform = *transform;
++}
++
++static void
++set_filter (filter_t    *dest,
++	    const char  *filter,
++	    XFixed      *params,
++	    int          nparams)
++{
+     /* note: this string is leaked */
+     dest->filter = strdup (filter);
+     dest->nparams = nparams;
+@@ -728,10 +748,25 @@ set_transform (transform_t  *dest,
+ }
+ 
+ static void
++auto_filter (output_t *output)
++{
++    if ((output->changes & changes_filter) == 0) {
++        init_filter (&output->filter);
++        output->filter.filter = "auto";
++        output->changes |= changes_filter;
++    }
++}
++
++static void
+ copy_transform (transform_t *dest, transform_t *src)
+ {
+-    set_transform (dest, &src->transform,
+-		   src->filter, src->params, src->nparams);
++    set_transform (dest, &src->transform);
++}
++
++static void
++copy_filter (filter_t *dest, filter_t *src)
++{
++    set_filter(dest, src->filter, src->params, src->nparams);
+ }
+ 
+ static Bool
+@@ -739,6 +774,12 @@ equal_transform (transform_t *a, transform_t *b)
+ {
+     if (memcmp (&a->transform, &b->transform, sizeof (XTransform)) != 0)
+ 	return False;
++    return True;
++}
++
++static Bool
++equal_filter (filter_t *a, filter_t *b)
++{
+     if (strcmp (a->filter, b->filter) != 0)
+ 	return False;
+     if (a->nparams != b->nparams)
+@@ -1157,6 +1198,40 @@ set_gamma_info(output_t *output)
+     XRRFreeGamma(crtc_gamma);
+ }
+ 
++static Bool
++pixel_exact(const XTransform *t)
++{
++    struct pixman_transform inv;
++
++    if (!pixman_transform_invert(&inv, (struct pixman_transform *)t))
++        return False;
++
++    /* Any perspective scaling? */
++    if ((inv.matrix[2][0] | inv.matrix[2][1] | inv.matrix[2][2]) != 0x10000)
++        return False;
++
++    /* Any non-integer translation? */
++    if ((inv.matrix[0][2] | inv.matrix[1][2]) & 0xffff)
++        return False;
++
++    /* Rotation? */
++    if (inv.matrix[0][1] | inv.matrix[1][0]) {
++        if (inv.matrix[0][0] | inv.matrix[1][1])
++            return False;
++
++        if ((inv.matrix[1][0] | inv.matrix[0][1]) & 0xffff)
++            return False;
++    } else {
++        if (inv.matrix[1][0] | inv.matrix[0][1])
++            return False;
++
++        if ((inv.matrix[0][0] | inv.matrix[1][1]) & 0xffff)
++            return False;
++    }
++
++    return True;
++}
++
+ static void
+ set_output_info (output_t *output, RROutput xid, XRROutputInfo *output_info)
+ {
+@@ -1303,15 +1378,29 @@ set_output_info (output_t *output, RROutput xid, XRROutputInfo *output_info)
+ 	    output->transform.transform.matrix[0][0] = XDoubleToFixed (sx);
+ 	    output->transform.transform.matrix[1][1] = XDoubleToFixed (sy);
+ 	    output->transform.transform.matrix[2][2] = XDoubleToFixed (1.0);
+-	    if (sx != 1 || sy != 1)
+-		output->transform.filter = "bilinear";
+-	    else
+-		output->transform.filter = "nearest";
+-	    output->transform.nparams = 0;
+-	    output->transform.params = NULL;
+ 	}
+     }
+ 
++    if (!(output->changes & changes_filter))
++    {
++	if (output->crtc_info)
++	    copy_filter (&output->filter, &output->crtc_info->current_filter);
++	else
++	    init_filter (&output->filter);
++    }
++    else
++    {
++	if (strcmp(output->filter.filter, "auto") == 0)
++        {
++	    if (pixel_exact(&output->transform.transform))
++		output->filter.filter = "nearest";
++	    else
++		output->filter.filter = "bilinear";
++	    if (verbose)
++		printf("Using %s filter\n", output->filter.filter);
++        }
++    }
++
+     /* set primary */
+     if (!(output->changes & changes_primary))
+ 	output->primary = output_is_primary(output);
+@@ -1376,7 +1465,8 @@ get_crtcs (void)
+ 	}
+ 	if (XRRGetCrtcTransform (dpy, res->crtcs[c], &attr) && attr) {
+ 	    set_transform (&crtcs[c].current_transform,
+-			   &attr->currentTransform,
++			   &attr->currentTransform);
++            set_filter(&crtcs[c].current_filter,
+ 			   attr->currentFilter,
+ 			   attr->currentParams,
+ 			   attr->currentNparams);
+@@ -1385,8 +1475,10 @@ get_crtcs (void)
+ 	else
+ 	{
+ 	    init_transform (&crtcs[c].current_transform);
++	    init_filter (&crtcs[c].current_filter);
+ 	}
+ 	copy_transform (&crtcs[c].pending_transform, &crtcs[c].current_transform);
++	copy_filter (&crtcs[c].pending_filter, &crtcs[c].current_filter);
+    }
+ }
+ 
+@@ -1403,6 +1495,7 @@ crtc_add_output (crtc_t *crtc, output_t *output)
+ 	crtc->rotation = output->rotation;
+ 	crtc->mode_info = output->mode_info;
+ 	copy_transform (&crtc->pending_transform, &output->transform);
++	copy_filter (&crtc->pending_filter, &output->filter);
+    }
+     if (!crtc->outputs) fatal ("out of memory\n");
+     crtc->outputs[crtc->noutput++] = output;
+@@ -1555,7 +1648,7 @@ crtc_disable (crtc_t *crtc)
+ }
+ 
+ static void
+-crtc_set_transform (crtc_t *crtc, transform_t *transform)
++crtc_set_transform (crtc_t *crtc, transform_t *transform, filter_t *filter)
+ {
+     int	major, minor;
+ 
+@@ -1563,9 +1656,9 @@ crtc_set_transform (crtc_t *crtc, transform_t *transform)
+     if (major > 1 || (major == 1 && minor >= 3))
+ 	XRRSetCrtcTransform (dpy, crtc->crtc.xid,
+ 			     &transform->transform,
+-			     transform->filter,
+-			     transform->params,
+-			     transform->nparams);
++			     filter->filter,
++			     filter->params,
++			     filter->nparams);
+ }
+ 
+ static Status
+@@ -1579,8 +1672,12 @@ crtc_revert (crtc_t *crtc)
+     if (dryrun)
+ 	return RRSetConfigSuccess;
+ 
+-    if (!equal_transform (&crtc->current_transform, &crtc->pending_transform))
+-	crtc_set_transform (crtc, &crtc->current_transform);
++    if (!equal_transform (&crtc->current_transform, &crtc->pending_transform) ||
++        !equal_filter (&crtc->current_filter, &crtc->pending_filter))
++	crtc_set_transform (crtc,
++                            &crtc->current_transform,
++                            &crtc->current_filter);
++
+     return XRRSetCrtcConfig (dpy, res, crtc->crtc.xid, CurrentTime,
+ 			    crtc_info->x, crtc_info->y,
+ 			    crtc_info->mode, crtc_info->rotation,
+@@ -1617,8 +1714,11 @@ crtc_apply (crtc_t *crtc)
+ 	s = RRSetConfigSuccess;
+     else
+     {
+-	if (!equal_transform (&crtc->current_transform, &crtc->pending_transform))
+-	    crtc_set_transform (crtc, &crtc->pending_transform);
++	if (!equal_transform (&crtc->current_transform, &crtc->pending_transform) ||
++            !equal_filter (&crtc->current_filter, &crtc->pending_filter))
++	    crtc_set_transform (crtc,
++                                &crtc->pending_transform,
++                                &crtc->pending_filter);
+ 	s = XRRSetCrtcConfig (dpy, res, crtc->crtc.xid, CurrentTime,
+ 			      crtc->x, crtc->y, mode, crtc->rotation,
+ 			      rr_outputs, crtc->noutput);
+@@ -1961,6 +2061,8 @@ check_crtc_for_output (crtc_t *crtc, output_t *output)
+ 	    return False;
+ 	if (!equal_transform (&crtc->current_transform, &output->transform))
+ 	    return False;
++	if (!equal_filter (&crtc->current_filter, &output->filter))
++	    return False;
+     }
+     else if (crtc->crtc_info->noutput)
+     {
+@@ -2978,66 +3080,72 @@ main (int argc, char **argv)
+ 	    setit_1_2 = True;
+ 	    continue;
+ 	}
+-	if (!strcmp ("--scale", argv[i]))
+-	{
+-	    double  sx, sy;
+-	    if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
+-	    if (++i >= argc) argerr ("%s requires an argument\n", argv[i-1]);
+-	    if (sscanf (argv[i], "%lfx%lf", &sx, &sy) != 2)
+-		argerr ("failed to parse '%s' as a scaling factor\n", argv[i]);
+-	    init_transform (&config_output->transform);
+-	    config_output->transform.transform.matrix[0][0] = XDoubleToFixed (sx);
+-	    config_output->transform.transform.matrix[1][1] = XDoubleToFixed (sy);
+-	    config_output->transform.transform.matrix[2][2] = XDoubleToFixed (1.0);
+-	    if (sx != 1 || sy != 1)
+-		config_output->transform.filter = "bilinear";
+-	    else
+-		config_output->transform.filter = "nearest";
+-	    config_output->transform.nparams = 0;
+-	    config_output->transform.params = NULL;
+-	    config_output->changes |= changes_transform;
+-	    continue;
+-	}
+-	if (!strcmp ("--scale-from", argv[i]))
+-	{
+-	    int w, h;
+-	    if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
+-	    if (++i >= argc) argerr ("%s requires an argument\n", argv[i-1]);
+-	    if (sscanf (argv[i], "%dx%d", &w, &h) != 2)
+-		argerr ("failed to parse '%s' as a scale-from size\n", argv[i]);
+-	    if (w <=0 || h <= 0)
+-		argerr ("--scale-from dimensions must be nonnegative\n");
+-	    config_output->scale_from_w = w;
+-	    config_output->scale_from_h = h;
+-	    config_output->changes |= changes_transform;
+-	    continue;
+-	}
+-	if (!strcmp ("--transform", argv[i])) {
+-	    double  transform[3][3];
+-	    int	    k, l;
++	if (!strcmp ("--filter", argv[i])) {
+ 	    if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
+ 	    if (++i >= argc) argerr ("%s requires an argument\n", argv[i-1]);
+-	    init_transform (&config_output->transform);
+-	    if (strcmp (argv[i], "none") != 0)
+-	    {
+-		if (sscanf(argv[i], "%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf",
+-			   &transform[0][0],&transform[0][1],&transform[0][2],
+-			   &transform[1][0],&transform[1][1],&transform[1][2],
+-			   &transform[2][0],&transform[2][1],&transform[2][2])
+-		    != 9)
+-		    argerr ("failed to parse '%s' as a transformation\n", argv[i]);
+-		init_transform (&config_output->transform);
+-		for (k = 0; k < 3; k++)
+-		    for (l = 0; l < 3; l++) {
+-			config_output->transform.transform.matrix[k][l] = XDoubleToFixed (transform[k][l]);
+-		    }
+-		config_output->transform.filter = "bilinear";
+-		config_output->transform.nparams = 0;
+-		config_output->transform.params = NULL;
++	    if (strcmp ("auto", argv[i]) == 0 ||
++		strcmp ("nearest", argv[i]) == 0 ||
++		strcmp ("bilinear", argv[i]) == 0) {
++		init_filter (&config_output->filter);
++		config_output->filter.filter = argv[i];
++		config_output->changes |= changes_filter;
++               continue; 
+ 	    }
+-	    config_output->changes |= changes_transform;
+-	    continue;
+ 	}
++	if (!strcmp ("--scale", argv[i]))
++        {
++            double  sx, sy;
++            if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
++            if (++i >= argc) argerr ("%s requires an argument\n", argv[i-1]);
++            if (sscanf (argv[i], "%lfx%lf", &sx, &sy) != 2)
++                argerr ("failed to parse '%s' as a scaling factor\n", argv[i]);
++            init_transform (&config_output->transform);
++            config_output->transform.transform.matrix[0][0] = XDoubleToFixed (sx);
++            config_output->transform.transform.matrix[1][1] = XDoubleToFixed (sy);
++            config_output->transform.transform.matrix[2][2] = XDoubleToFixed (1.0);
++            config_output->changes |= changes_transform;
++            auto_filter (config_output);
++            continue;
++        }
++        if (!strcmp ("--scale-from", argv[i]))
++        {
++            int w, h;
++            if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
++            if (++i >= argc) argerr ("%s requires an argument\n", argv[i-1]);
++            if (sscanf (argv[i], "%dx%d", &w, &h) != 2)
++                argerr ("failed to parse '%s' as a scale-from size\n", argv[i]);
++            if (w <=0 || h <= 0)
++                argerr ("--scale-from dimensions must be nonnegative\n");
++            config_output->scale_from_w = w;
++            config_output->scale_from_h = h;
++            config_output->changes |= changes_transform;
++            auto_filter (config_output);
++            continue;
++        }
++        if (!strcmp ("--transform", argv[i])) {
++            double  transform[3][3];
++            int	    k, l;
++            if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
++            if (++i >= argc) argerr ("%s requires an argument\n", argv[i-1]);
++            init_transform (&config_output->transform);
++            if (strcmp (argv[i], "none") != 0)
++            {
++                if (sscanf(argv[i], "%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf",
++                           &transform[0][0],&transform[0][1],&transform[0][2],
++                           &transform[1][0],&transform[1][1],&transform[1][2],
++                           &transform[2][0],&transform[2][1],&transform[2][2])
++                    != 9)
++                    argerr ("failed to parse '%s' as a transformation\n", argv[i]);
++                init_transform (&config_output->transform);
++                for (k = 0; k < 3; k++)
++                    for (l = 0; l < 3; l++) {
++                        config_output->transform.transform.matrix[k][l] = XDoubleToFixed (transform[k][l]);
++                    }
++            }
++            config_output->changes |= changes_transform;
++            auto_filter(config_output);
++            continue;
++        }
+ 	if (!strcmp ("--off", argv[i])) {
+ 	    if (!config_output) argerr ("%s must be used after --output\n", argv[i]);
+ 	    set_name_xid (&config_output->mode, None);
+@@ -3802,8 +3909,8 @@ main (int argc, char **argv)
+ 		    if (y < 2)
+ 			printf ("\n\t           ");
+ 		}
+-		if (output->transform.filter)
+-		    printf ("\n\t           filter: %s", output->transform.filter);
++		if (output->filter.filter)
++		    printf ("\n\t           filter: %s", output->filter.filter);
+ 		printf ("\n");
+ 	    }
+ 	    if (verbose || properties)
