@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ ./other.nix ./nginx-file-server.nix ./syncthing.nix];
+  imports = [ ./other.nix ];
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.packageOverride = pkgs: {

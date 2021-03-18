@@ -1,15 +1,8 @@
 { config, pkgs, ... }:
 let
-  unstableTarball = fetchTarball
-    https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+  emptyVar = "";
 in
 {
-
-  nixpkgs.config.packageOverrides = pkgs: {
-    unstable = import unstableTarball {
-      config = config.nixpkgs.config;
-    };
-  };
   
 
   users = {
@@ -70,17 +63,32 @@ in
       freefont_ttf
       liberation_ttf
       noto-fonts-emoji
+      dejavu_fonts
+
       source-han-sans-japanese
       source-han-serif-japanese
-      #unstable.terminus_font
-      tewi-font
       liberation_ttf
       # ubuntu_font_family
+      terminus_font_ttf
     ];
 
     fontconfig = {
       enable = true;
       allowBitmaps = true;
+      antialias = true;
+      # Terminus (TTF) specific
+      localConf = ''
+        <fontconfig>
+          <match target="font" >
+            <test name="family" qual="any">
+              <string>Terminus (TTF)</string>
+	    </test>
+	    <edit name="antialias" mode="assign">
+              <bool>false</bool>
+	    </edit>
+	  </match> 
+	</fontconfig>
+      '';
       defaultFonts = {
         sansSerif = [ "FreeSans" "Source Han Sans JP" ];
         serif = [ "FreeSerif" "Source Han Serif JP" ];
@@ -94,21 +102,20 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    #packageOverrides = pkgs: {
-    #  unstable = import unstableTarball { config = config.nixpkgs.config;};
-    # #st = import ../shared/st { inherit pkgs; };
-    #};
   };
 
-# programs.vim.defaultEditor = true;
+
+  # setting up default editor
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
   environment.shells = [pkgs.zsh pkgs.bashInteractive];
   environment.systemPackages = with pkgs; [
-    git vim wget zathura
+    git neovim wget zathura
     nodejs
-    sublime3 unzip ffmpeg
-    steam
-    #_3llo
+    unzip ffmpeg
     entr
     (import ../programs/st/default.nix { inherit pkgs; })
     (import ../programs/xrandr/default.nix { inherit pkgs; })
@@ -125,7 +132,7 @@ in
     i3-easyfocus
     xorg.xbacklight
     mpv
-  ] ++ (with unstable; [youtube-dl]);
+  ];
   
   environment.shellAliases = {
     rmdir = "rm -rf";
@@ -175,7 +182,6 @@ in
     "yt-audio" = ''youtube-dl -i --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'';
     #"3llo" = ''TRELLO_USER="${secret.trelloUser}" TRELLO_KEY="${secret.trelloKey}" TRELLO_TOKEN="${secret.trelloToken}" 3llo'';
 
-    "vlc" = "${pkgs.vlc}/bin/vlc --qt-minimal-view --fullscreen";
     "dl" = "cd ~/Downloads";
     "pl" = "cd ~/Playground";
 
@@ -214,5 +220,6 @@ in
   i18n.inputMethod = {
     enabled = "fcitx";
     fcitx.engines = with pkgs.fcitx-engines; [ mozc m17n ];
+
   };
 }

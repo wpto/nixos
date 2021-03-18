@@ -1,10 +1,13 @@
 set $mod Mod4
 
-font pango: Terminus 11px
+
+font pango:Terminus (TTF) 12px
+
+set $terminal_exec "st -f 'Terminus (TTF)'"
 
 exec --no-startup-id xmodmap -e "keycode 104 = Return"
 exec --no-startup-id fbsetroot -display :0 -solid "#000000"
-
+exec --no-startup-id fc-cache -f
 exec --no-startup-id nm-applet
  
 floating_modifier $mod
@@ -55,8 +58,9 @@ bindsym $mod+Shift+l move right
 
 bindsym $mod+Shift+r restart
 
-bindsym $mod+Return exec st
-bindsym $mod+KP_Enter exec st
+
+bindsym $mod+Return exec $terminal_exec
+bindsym $mod+KP_Enter exec $terminal_exec
 
 bar {
 	status_command i3status
